@@ -1,14 +1,23 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.Locale
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    id("kotlin-kapt")
+    // Need change firebase config
+//    id("com.google.firebase.crashlytics")
+//    id("com.google.gms.google-services")
+    id("com.google.dagger.hilt.android")
+
 }
 
 kotlin {
@@ -68,17 +77,23 @@ kotlin {
         }
     }
 }
+val versionMajor = 1
+val versionMinor = 0
+val versionPatch = 0
+val minimumSdkVersion = 33
 
+val copyApks = tasks.register("copyApks")
 android {
     namespace = "com.mp.widemovie"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
-
+    android.buildFeatures.buildConfig = true
     defaultConfig {
         applicationId = "com.mp.widemovie"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = generateVersionCode()
+        versionName = generateVersionName()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -87,16 +102,118 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("debug")
+            applicationVariants.all {
+                // Create variant-specific task that collects the APK.
+                val copyApk = tasks.register<Copy>(name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }) {
+                    // Copy output files from the task that produces the APK...
+                    from(packageApplicationProvider)
+
+                    // ...into a directory relative to module source root.
+                    into(file(name))
+
+                    // Filter out any metadata files, only include APKs.
+                    include { it.name.endsWith(".apk") || it.name.endsWith(".aab") }
+                }
+                outputs.all {
+                    val output = this as? BaseVariantOutputImpl
+                    output?.outputFileName =
+                        "XXXMovies_${buildType.name}_v${generateVersionName()}.apk" //Change name later
+                    setProperty("archivesBaseName", "XXXMovies-v$versionName")
+                }
+                val deleteApks = tasks.register<Delete>(
+                    "delete${
+                        name.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.getDefault()
+                            ) else it.toString()
+                        }
+                    }"
+                ) {
+                    if (name == "deleteDebug") {
+                        delete(listOf("${rootDir}/app/debug"))
+                    }
+                    if (name == "deleteRelease") {
+                        delete(listOf("${rootDir}/app/release"))
+                    }
+
+                }
+                copyApk.dependsOn(deleteApks)
+                copyApks.dependsOn(copyApk)
+                assembleProvider.dependsOn(copyApk)
+            }
+//            val projectProperties = readProperties(file("../local.properties"))
+//            val admobAppId = projectProperties.getProperty("ADMOB_ID_PROD")
+//            manifestPlaceholders["admobAppId"] = admobAppId
+        }
+    }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "21"  // Đảm bảo target JVM cho Kotlin trùng với Java
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+    buildToolsVersion = "35.0.0"
+}
+fun generateVersionCode(): Int {
+    return minimumSdkVersion * 10000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
 }
 
+fun generateVersionName(): String {
+    return "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+tasks.clean {
+    delete += listOf("${rootDir}/app/release", "${rootDir}/app/debug")
+}
+configure<KaptExtension> {
+    correctErrorTypes = true
+    useBuildCache = true
+}
 dependencies {
     debugImplementation(compose.uiTooling)
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.database)
+    implementation(libs.androidx.media3.exoplayer.hls)
+    implementation(libs.androidx.appcompat)
+
+    // Leak canary
+    debugImplementation(libs.squareup.leakcanary.android)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    // Hilt for ViewModel
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(project(":sharelibrary"))
+    implementation(project(":commonUI"))
+    implementation(libs.androidx.runtime.livedata)
+
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation (libs.androidx.navigation.compose)
 }
 

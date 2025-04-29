@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action">Action</string>
+    <string name="romance">Romance</string>
+    <string name="comedy">Comedy</string>
+    <string name="co_trang">Historical drama</string>
+    <string name="tam_ly">Mentality</string>
+    <string name="hinh_su">Criminal</string>
+    <string name="chien_tranh">War</string>
+    <string name="the_thao">Sport</string>
+    <string name="vo_thuat">Martial Arts</string>
+    <string name="vien_tuong">Fantasy</string>
+    <string name="phieu_luu">Adventure</string>
+    <string name="khoa_hoc">Science</string>
+    <string name="kinh_di">Horror</string>
+    <string name="am_nhac">Music</string>
+    <string name="than_thoai">Mythology</string>
+    <string name="tai_lieu">Documentary</string>
+    <string name="gia_dinh">Family</string>
+    <string name="chinh_kich">Drama</string>
+    <string name="bi_an">Mystery</string>
+    <string name="hoc_duong">School</string>
+    <string name="kinh_dien">Classic</string>
+    <string name="phim_18">Adult</string>
+    <string name="phim_moi">New Film</string>
+    <string name="phim_bo">Series</string>
+    <string name="phim_le">Movie</string>
+    <string name="hoat_hinh">Anime/cartoon</string>
+    <string name="phim_thuyet_minh">Narrated film</string>
+    <string name="phim_long_tieng">Dubbed movies</string>
+    <string name="phim_bo_dang_chieu">Phim đang chiếu</string>
+    <string name="phim_bo_hoan_thanh">Completed</string>
+    <string name="phim_sap_chieu">Coming soon</string>
+    <string name="phim_subteam">Sub team</string>
+    <string name="phim_vietsub">Vietsub</string>
+    <string name="viet_nam">Việt Nam</string>
+    <string name="au_my">EU-US</string>
+    <string name="trung_quoc">China</string>
+    <string name="nhat_ban">Japan</string>
+    <string name="anh">UK</string>
+    <string name="filter">Filter</string>
+    <string name="category_title">Category</string>
+    <string name="phim_all">All</string>
+    <string name="tv_shows">TV Shows</string>
+</resources>
