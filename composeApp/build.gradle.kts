@@ -16,7 +16,6 @@ plugins {
     // Need change firebase config
 //    id("com.google.firebase.crashlytics")
 //    id("com.google.gms.google-services")
-    id("com.google.dagger.hilt.android")
 
 }
 
@@ -167,6 +166,11 @@ android {
     }
     buildToolsVersion = "35.0.0"
 }
+apply(plugin = "org.jetbrains.kotlin.kapt")
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}
 fun generateVersionCode(): Int {
     return minimumSdkVersion * 10000000 + versionMajor * 10000 + versionMinor * 100 + versionPatch
 }
@@ -176,10 +180,6 @@ fun generateVersionName(): String {
 }
 tasks.clean {
     delete += listOf("${rootDir}/app/release", "${rootDir}/app/debug")
-}
-configure<KaptExtension> {
-    correctErrorTypes = true
-    useBuildCache = true
 }
 dependencies {
     debugImplementation(compose.uiTooling)
@@ -193,10 +193,6 @@ dependencies {
 
     // Leak canary
     debugImplementation(libs.squareup.leakcanary.android)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 
     // Hilt for ViewModel
     implementation(libs.androidx.hilt.navigation.compose)
