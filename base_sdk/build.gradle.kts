@@ -85,6 +85,9 @@ kotlin {
                 // Add KMP dependencies here
                 implementation(compose.components.resources)
                 implementation(compose.runtime)
+                implementation(libs.kotlinx.datetime)
+                implementation (libs.converter.gson)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
