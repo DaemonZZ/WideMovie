@@ -63,6 +63,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(project(":commonUi"))
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -202,7 +203,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-//    implementation(project(":sharelibrary"))
+    implementation(project(":base_sdk"))
 //    implementation(project(":commonUI"))
     implementation(libs.androidx.runtime.livedata)
 
