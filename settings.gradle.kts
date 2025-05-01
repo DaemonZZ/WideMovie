@@ -29,5 +29,3 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
-include(":sharelibrary")
-include(":commonUI")

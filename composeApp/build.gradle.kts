@@ -194,8 +194,6 @@ dependencies {
     // Leak canary
     debugImplementation(libs.squareup.leakcanary.android)
 
-    // Hilt for ViewModel
-    implementation(libs.androidx.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
@@ -204,8 +202,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(project(":sharelibrary"))
-    implementation(project(":commonUI"))
+//    implementation(project(":sharelibrary"))
+//    implementation(project(":commonUI"))
     implementation(libs.androidx.runtime.livedata)
 
     implementation(libs.androidx.media3.exoplayer)
