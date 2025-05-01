@@ -19,7 +19,7 @@ hiltAndroid = "2.56.1"
 hiltAndroidCompiler = "2.56.1"
 hiltNavigationCompose = "1.1.0"
 junitJupiterParams = "5.10.1"
-kotlin = "2.0.21"
+kotlin = "2.1.20"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -27,6 +27,7 @@ espressoCore = "3.6.1"
 kotlinxCoroutinesTest = "1.7.3"
 kotlinxDatetime = "0.6.0"
 kotlinxSerializationJson = "1.6.3"
+ktor = "3.1.2"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2025.04.01"
@@ -43,7 +44,7 @@ okhttp = "4.9.3"
 loggingInterceptor = "4.9.1"
 junitJupiter = "5.8.1"
 media3ExoplayerHls = "1.6.1"
-kotlinStdlib = "2.0.21"
+kotlinStdlib = "2.1.20"
 runner = "1.5.2"
 core = "1.5.0"
 res = "1.5.10"
@@ -88,6 +89,14 @@ junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", vers
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-resources = { module = "io.ktor:ktor-client-resources", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "squareupLeakcanaryAndroid" }
@@ -109,3 +118,4 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+serialization = {id = "plugin.serialization", version.ref = "kotlin"}

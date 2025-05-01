@@ -1,3 +1,6 @@
+@file:OptIn(ExperimentalWasmDsl::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import java.util.Properties
 
 var baseUrl = ""
@@ -7,6 +10,7 @@ plugins {
 
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    kotlin("plugin.serialization") version "2.0.21"
 }
 repositories {
     mavenCentral()
@@ -71,6 +75,9 @@ kotlin {
             baseName = xcfName
         }
     }
+    wasmJs{
+        browser()
+    }
 
 // Source set declarations.
 // Declaring a target automatically creates a source set with the same name. By default, the
@@ -86,8 +93,13 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.datetime)
-                implementation (libs.converter.gson)
+                implementation(libs.converter.gson)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.client.resources)
             }
         }
 
@@ -102,6 +114,7 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
+                implementation(libs.ktor.client.okhttp)
             }
         }
 
@@ -120,7 +133,16 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
+                implementation(libs.ktor.client.darwin)
             }
+        }
+        wasmJsMain {
+            dependencies {
+                implementation(libs.ktor.client.js)
+            }
+        }
+        wasmJsTest {
+
         }
     }
 }
