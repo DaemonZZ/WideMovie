@@ -14,23 +14,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.daemonz.base_sdk.repo.AppRepository
 import com.daemonz.base_sdk.utils.TLog
+import com.mp.widemovie.viewmodel.HomeViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import widemovie.composeapp.generated.resources.Res
 import widemovie.composeapp.generated.resources.compose_multiplatform
 
 private const val TAG = "App"
 @Composable
 @Preview
-fun App(repo: AppRepository) {
+fun App() {
+    val viewModel: HomeViewModel = koinViewModel()
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = {
                TLog.d(TAG, "Click me!")
-                repo.getMovieBySlug("natra-ma-dong-giang-the")
+                viewModel.getMovie("natra-ma-dong-giang-the")
             }) {
                 Text("Click me!")
             }

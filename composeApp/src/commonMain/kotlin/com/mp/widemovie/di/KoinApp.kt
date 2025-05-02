@@ -7,7 +7,7 @@ import com.mp.widemovie.viewmodel.HomeViewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
@@ -23,6 +23,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 
 val appModule = module {
     singleOf(::AppRepository) { bind<BaseRepository>() }
-    viewModelOf(::HomeViewModel)
+    viewModel { HomeViewModel(get()) }
     factory { getPlatform(this) }
 }

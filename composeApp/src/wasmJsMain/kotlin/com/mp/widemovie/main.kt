@@ -1,18 +1,15 @@
 package com.mp.widemovie
 
-import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
-import com.daemonz.base_sdk.repo.AppRepository
+import com.mp.widemovie.di.initKoin
 import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    initKoin()
     ComposeViewport(document.body!!) {
         App(
-            repo = remember {
-                AppRepository()
-            }
         )
     }
 }
