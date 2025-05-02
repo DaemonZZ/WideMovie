@@ -57,6 +57,9 @@ kotlin {
             baseName = xcfName
         }
     }
+    wasmJs {
+        browser()
+    }
 
 // Source set declarations.
 // Declaring a target automatically creates a source set with the same name. By default, the
@@ -67,7 +70,6 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation(libs.material3)
                 implementation(compose.components.resources)
             }
         }
@@ -91,7 +93,7 @@ kotlin {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.ui)
                 implementation(libs.androidx.ui.graphics)
-
+                implementation(libs.material3)
                 implementation(libs.androidx.foundation)
             }
         }
@@ -111,6 +113,12 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
+                implementation(libs.material3)
+            }
+        }
+        wasmJsMain {
+            dependencies {
+                implementation(compose.material)
             }
         }
     }

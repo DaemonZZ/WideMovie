@@ -62,7 +62,6 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(project(":commonUi"))
             implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
@@ -75,6 +74,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(project(":base_sdk"))
+            implementation(project(":commonUi"))
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
@@ -85,7 +85,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
 
         }
-        wasmJsMain.dependencies {  }
+        wasmJsMain.dependencies {
+        }
     }
 }
 val versionMajor = 1
@@ -138,8 +139,8 @@ android {
                 outputs.all {
                     val output = this as? BaseVariantOutputImpl
                     output?.outputFileName =
-                        "XXXMovies_${buildType.name}_v${generateVersionName()}.apk" //Change name later
-                    setProperty("archivesBaseName", "XXXMovies-v$versionName")
+                        "WideMovies_${buildType.name}_v${generateVersionName()}.apk" //Change name later
+                    setProperty("archivesBaseName", "WideMovies-v$versionName")
                 }
                 val deleteApks = tasks.register<Delete>(
                     "delete${

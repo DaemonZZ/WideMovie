@@ -3,11 +3,10 @@ package com.daemonz.common.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
-import androidx.compose.material3.Typography
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.Colors
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -18,7 +17,7 @@ import com.daemonz.common.theme.dark.fidoDarkColorScheme
 import com.daemonz.common.theme.light.fidoLightColorScheme
 
 internal val LocalTypography = staticCompositionLocalOf { fidoTypography() }
-internal val LocalColorScheme = staticCompositionLocalOf { lightColorScheme() }
+internal val LocalColorScheme = staticCompositionLocalOf { lightColors() }
 internal val LocalShapes = staticCompositionLocalOf { Shapes() }
 internal val LocalUsingExpressiveTheme = staticCompositionLocalOf { false }
 
@@ -26,11 +25,11 @@ object FidoTheme {
     /**
      * Retrieves the current [ColorScheme] at the call site's position in the hierarchy.
      */
-    val colorScheme: ColorScheme
+    val colorScheme: Colors
         @Composable @ReadOnlyComposable get() = LocalColorScheme.current
 
     /**
-     * Retrieves the current [Typography] at the call site's position in the hierarchy.
+     * Retrieves the current [kotlin.text.Typography] at the call site's position in the hierarchy.
      */
     val typography: Typography
         @Composable @ReadOnlyComposable get() = LocalTypography.current
@@ -44,7 +43,7 @@ object FidoTheme {
 
 @Composable
 fun FidoTheme(
-    customizeColorScheme: ColorScheme? = null,
+    customizeColorScheme: Colors? = null,
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     typography: Typography? = null,
     content: @Composable () -> Unit,
@@ -71,9 +70,9 @@ fun FidoTheme(
         LocalUsingExpressiveTheme provides isExpressiveTheme,
     ) {
         MaterialTheme(
-            colorScheme = FidoTheme.colorScheme,
+            colors = FidoTheme.colorScheme,
             shapes = FidoTheme.shapes,
-            typography = FidoTheme.typography,
+//            typography = FidoTheme.typography,
             content = content
         )
     }
@@ -81,7 +80,7 @@ fun FidoTheme(
 
 @Composable
 /*@VisibleForTesting*/
-internal fun rememberTextSelectionColors(colorScheme: ColorScheme): TextSelectionColors {
+internal fun rememberTextSelectionColors(colorScheme: Colors): TextSelectionColors {
     val primaryColor = colorScheme.primary
     return remember(primaryColor) {
         TextSelectionColors(

@@ -1,6 +1,7 @@
 package com.daemonz.common.components.buttons
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +18,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import com.daemonz.common.components.text.BaseText
 import com.daemonz.common.theme.FidoTheme
-import  androidx.compose.foundation.interaction.MutableInteractionSource
 import org.jetbrains.compose.resources.painterResource
 import widemovie.commonui.generated.resources.Res
 import widemovie.commonui.generated.resources.ic_play
