@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.daemonz.base_sdk.TAG
 import com.daemonz.base_sdk.repo.AppRepository
 import com.daemonz.base_sdk.utils.TLog
 import org.jetbrains.compose.resources.painterResource
@@ -36,10 +35,8 @@ fun App(repo: AppRepository) {
                 Text("Click me!")
             }
             AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
                 }
             }
         }

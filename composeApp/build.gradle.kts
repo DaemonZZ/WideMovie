@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.util.Locale
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -64,6 +63,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(project(":commonUi"))
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -75,6 +75,15 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(project(":base_sdk"))
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+
         }
         wasmJsMain.dependencies {  }
     }
@@ -193,6 +202,11 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.androidx.media3.exoplayer.hls)
     implementation(libs.androidx.appcompat)
+
+    // Koin Test features
+    testImplementation(libs.koin.test)
+    // Koin for JUnit 5
+    testImplementation(libs.koin.test.junit5)
 
     // Leak canary
     debugImplementation(libs.squareup.leakcanary.android)
