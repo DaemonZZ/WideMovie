@@ -100,7 +100,7 @@ kotlin {
             // Transitions
             implementation(libs.voyager.transitions)
             // Koin integration
-//            implementation(libs.voyager.koin)
+//            implementation(libs.voyager.koin) // Chưa hỗ trợ wasm
 
         }
         wasmJsMain.dependencies {

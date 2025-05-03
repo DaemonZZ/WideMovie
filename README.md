@@ -1,21 +1,43 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web.
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+### **WideMovie MultiPlatform App**
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+**Nền tảng hỗ trợ:**
+- ✅ Android
+- ✅ iOS
+- ✅ WebAssembly
 
+---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+### **Những thư viện cần thay thế để chạy KMP (Kotlin MultiPlatform):**
+| Android Library | Kotlin Multiplatform Thay thế |
+|------------------|-------------------------------|
+| Hilt             | [Koin](https://insert-koin.io/docs/reference/koin-mp/kmp/) |
+| Navigation       | [Voyager Navigation](https://voyager.adriel.cafe/navigation/) |
+| Retrofit         | [Ktor Client](https://ktor.io/docs/client-create-multiplatform-application.html) |
+| Room Database    | [SQLDelight](https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/) |
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+---
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+### **Những hạn chế:**
+- ❌ Không sử dụng được **Kapt** (chỉ hỗ trợ Android).
+- ⚠️ Hạn chế sử dụng `Dispatchers.IO` (chỉ dùng được trong `androidMain`).
+- 🚫 Không thể dùng **XML resource**  
+  👉 Dùng [`compose.resource`](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-resources.html) thay thế.
+- 🧩 Không thể sử dụng **Material3** cho `wasmJs`  
+  👉 Cần chuyển sang **Material2** hoặc xử lý riêng cho `wasmJs`.
+- ⚠️ **Koin Navigation** không tương thích hoàn toàn.
+- 🐞 **Ktor** bản mới nhất lỗi khi build trên **iOS Emulator**.
+- 🚫 **SQLDelight** không hỗ trợ Wasm, cần phương án thay thế nếu cần thiết
+
+---
+
+### **Những điểm cần lưu ý:**
+- 🔹 Sử dụng **Kotlin 2.0**  
+  👉 Xem thêm về `expect`/`actual` và `typealias`:  
+  [Kotlin Multiplatform - Expect/Actual](https://kotlinlang.org/docs/multiplatform-expect-actual.html)
+- 🔹 Làm việc với API qua [Ktor Client](https://ktor.io/docs/client-create-multiplatform-application.html).
+- 🔹 Cách triển khai **UI chung và UI riêng theo platform**.
+- 🔹 Xử lý resource và navigation:
+  - [Voyager Navigation Docs](https://voyager.adriel.cafe/navigation/)
+  - [Koin MP Docs](https://insert-koin.io/docs/reference/koin-mp/kmp/)
+  - [SQLDelight MP Docs](https://sqldelight.github.io/sqldelight/2.0.2/multiplatform_sqlite/)
