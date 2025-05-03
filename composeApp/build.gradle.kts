@@ -17,6 +17,11 @@ plugins {
 //    id("com.google.gms.google-services")
 
 }
+repositories {
+    google()
+    mavenCentral()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+}
 
 kotlin {
     androidTarget {
@@ -83,6 +88,19 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            // Navigator
+            implementation(libs.voyager.navigator)
+            // Screen Model
+            implementation(libs.voyager.screenmodel)
+            // BottomSheetNavigator
+            implementation(libs.voyager.bottom.sheet.navigator)
+            // TabNavigator
+            implementation(libs.voyager.tab.navigator)
+            // Transitions
+            implementation(libs.voyager.transitions)
+            // Koin integration
+//            implementation(libs.voyager.koin)
 
         }
         wasmJsMain.dependencies {

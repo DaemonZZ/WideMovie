@@ -14,7 +14,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import cafe.adriel.voyager.navigator.Navigator
 import com.daemonz.base_sdk.utils.TLog
+import com.mp.widemovie.screen.MovieDetail
 import com.mp.widemovie.viewmodel.HomeViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -25,7 +27,7 @@ import widemovie.composeapp.generated.resources.compose_multiplatform
 private const val TAG = "App"
 @Composable
 @Preview
-fun App() {
+fun App(nav: Navigator) {
     val viewModel: HomeViewModel = koinViewModel()
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
@@ -33,6 +35,7 @@ fun App() {
             Button(onClick = {
                TLog.d(TAG, "Click me!")
                 viewModel.getMovie("natra-ma-dong-giang-the")
+                nav += MovieDetail("natra-ma-dong-giang-the")
             }) {
                 Text("Click me!")
             }
