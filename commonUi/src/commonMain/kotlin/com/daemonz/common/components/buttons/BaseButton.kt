@@ -6,21 +6,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonElevation
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import com.daemonz.common.components.text.BaseText
 import com.daemonz.common.theme.FidoTheme
-import org.jetbrains.compose.resources.painterResource
-import widemovie.commonui.generated.resources.Res
-import widemovie.commonui.generated.resources.ic_play
 
 @Composable
 fun BaseButton(
@@ -29,7 +26,7 @@ fun BaseButton(
     enabled: Boolean = true,
     shape: Shape = FidoTheme.shapes.medium,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
-    elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
+    elevation: ButtonElevation? = ButtonDefaults.elevation(),
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
@@ -61,7 +58,7 @@ fun BaseButtonText(
         modifier = modifier,
         onClick = onClick,
         shape = shape,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        contentPadding = ButtonDefaults.TextButtonContentPadding
     ) {
         BaseText(text)
     }
@@ -73,13 +70,13 @@ fun BaseButtonWithIcon(
     modifier: Modifier = Modifier,
     shape: Shape = FidoTheme.shapes.medium,
     text: String = "",
-    icon: Painter = painterResource(Res.drawable.ic_play),
+    icon: Painter,
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
         shape = shape,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        contentPadding = ButtonDefaults.TextButtonContentPadding
     ) {
         Icon(
             icon,

@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
@@ -52,7 +52,7 @@ fun ThemeColorSample() = FidoTheme {
             Modifier
                 .aspectRatio(1f)
                 .size(10.dp, 10.dp)
-                .background(color = colorScheme.primaryContainer)
+                .background(color = colorScheme.primary)
         )
         Box(
             Modifier
@@ -85,15 +85,15 @@ fun ThemeTextStyleSample() = FidoTheme {
     ) {
         BaseText(
             text = "Headline small styled text",
-            style = typography.headlineLarge
+            style = typography.h1
         )
         BaseText(
             text = "Headline small styled text",
-            style = typography.headlineMedium
+            style = typography.h2
         )
         BaseText(
             text = "Headline small styled text",
-            style = typography.headlineSmall
+            style = typography.h3
         )
 
         Spacer(
@@ -103,15 +103,15 @@ fun ThemeTextStyleSample() = FidoTheme {
 
         BaseText(
             text = "Headline small styled text",
-            style = typography.bodyLarge
+            style = typography.body1
         )
         BaseText(
             text = "Headline small styled text",
-            style = typography.bodyMedium
+            style = typography.body2
         )
         BaseText(
             text = "Headline small styled text",
-            style = typography.bodySmall
+            style = typography.button
         )
     }
 }

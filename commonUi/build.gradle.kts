@@ -70,7 +70,17 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(libs.kotlin.stdlib)
-                implementation(compose.components.resources)
+                // Add Android-specific dependencies here. Note that this source set depends on
+                // commonMain by default and will correctly pull the Android artifacts of any KMP
+                // dependencies declared in commonMain.
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.ui)
+                implementation(compose.components.resources) //For what?
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtime.compose)
             }
         }
 
@@ -85,16 +95,9 @@ kotlin {
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
-                implementation(libs.androidx.lifecycle.runtime.ktx)
-                implementation(libs.androidx.ui.tooling.preview)
-                implementation(libs.androidx.core.ktx)
-                implementation(libs.androidx.appcompat)
-
+                implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.ui)
-                implementation(libs.androidx.ui.graphics)
-                implementation(libs.material3)
-                implementation(libs.androidx.foundation)
+                implementation(libs.kotlinx.coroutines.android)
             }
         }
 
@@ -113,12 +116,12 @@ kotlin {
                 // part of KMP’s default source set hierarchy. Note that this source set depends
                 // on common by default and will correctly pull the iOS artifacts of any
                 // KMP dependencies declared in commonMain.
-                implementation(libs.material3)
+//                implementation(libs.material3)
             }
         }
         wasmJsMain {
             dependencies {
-                implementation(compose.material)
+//                implementation(compose.material)
             }
         }
     }

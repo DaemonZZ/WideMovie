@@ -6,7 +6,7 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
-import androidx.compose.material.lightColors
+import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
@@ -17,7 +17,7 @@ import com.daemonz.common.theme.dark.fidoDarkColorScheme
 import com.daemonz.common.theme.light.fidoLightColorScheme
 
 internal val LocalTypography = staticCompositionLocalOf { fidoTypography() }
-internal val LocalColorScheme = staticCompositionLocalOf { lightColors() }
+internal val LocalColorScheme = staticCompositionLocalOf { fidoDarkColorScheme() }
 internal val LocalShapes = staticCompositionLocalOf { Shapes() }
 internal val LocalUsingExpressiveTheme = staticCompositionLocalOf { false }
 
@@ -25,7 +25,7 @@ object FidoTheme {
     /**
      * Retrieves the current [ColorScheme] at the call site's position in the hierarchy.
      */
-    val colorScheme: Colors
+    val colorScheme: FidoColorScheme
         @Composable @ReadOnlyComposable get() = LocalColorScheme.current
 
     /**
@@ -43,7 +43,7 @@ object FidoTheme {
 
 @Composable
 fun FidoTheme(
-    customizeColorScheme: Colors? = null,
+    customizeColorScheme: FidoColorScheme? = null,
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     typography: Typography? = null,
     content: @Composable () -> Unit,
@@ -70,9 +70,9 @@ fun FidoTheme(
         LocalUsingExpressiveTheme provides isExpressiveTheme,
     ) {
         MaterialTheme(
-            colors = FidoTheme.colorScheme,
+            colors = FidoTheme.colorScheme.toMaterialTheme,
             shapes = FidoTheme.shapes,
-//            typography = FidoTheme.typography,
+            typography = FidoTheme.typography,
             content = content
         )
     }

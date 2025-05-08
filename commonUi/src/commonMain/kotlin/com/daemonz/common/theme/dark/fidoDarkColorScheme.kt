@@ -1,7 +1,7 @@
 package com.daemonz.common.theme.dark
 
-import androidx.compose.material.darkColors
 import androidx.compose.ui.graphics.Color
+import com.daemonz.common.theme.FidoColorScheme
 
 fun fidoDarkColorScheme(
     primary: Color = ColorDarkTokens.Primary,
@@ -40,41 +40,19 @@ fun fidoDarkColorScheme(
     surfaceContainerLow: Color = ColorDarkTokens.SurfaceContainerLow,
     surfaceContainerLowest: Color = ColorDarkTokens.SurfaceContainerLowest,
     surfaceDim: Color = ColorDarkTokens.SurfaceDim,
-) = darkColors(
+): FidoColorScheme = FidoColorScheme(
     primary = primary,
     onPrimary = onPrimary,
-//    primaryContainer = primaryContainer,
-//    onPrimaryContainer = onPrimaryContainer,
-//    inversePrimary = inversePrimary,
     secondary = secondary,
     onSecondary = onSecondary,
-//    secondaryContainer = secondaryContainer,
-//    onSecondaryContainer = onSecondaryContainer,
-//    tertiary = tertiary,
-//    onTertiary = onTertiary,
-//    tertiaryContainer = tertiaryContainer,
-//    onTertiaryContainer = onTertiaryContainer,
     background = background,
     onBackground = onBackground,
     surface = surface,
     onSurface = onSurface,
-//    surfaceVariant = surfaceVariant,
-//    onSurfaceVariant = onSurfaceVariant,
-//    surfaceTint = surfaceTint,
-//    inverseSurface = inverseSurface,
-//    inverseOnSurface = inverseOnSurface,
     error = error,
     onError = onError,
-//    errorContainer = errorContainer,
-//    onErrorContainer = onErrorContainer,
-//    outline = outline,
-//    outlineVariant = outlineVariant,
-//    scrim = scrim,
-//    surfaceBright = surfaceBright,
-//    surfaceContainer = surfaceContainer,
-//    surfaceContainerHigh = surfaceContainerHigh,
-//    surfaceContainerHighest = surfaceContainerHighest,
-//    surfaceContainerLow = surfaceContainerLow,
-//    surfaceContainerLowest = surfaceContainerLowest,
-//    surfaceDim = surfaceDim,
+    primaryVariant = primaryContainer,
+    secondaryVariant = secondaryContainer,
+    isLight = false,
 )
+
