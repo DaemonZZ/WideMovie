@@ -10,3 +10,5 @@ actual fun getInitialScreenFromUrl(): Screen = HomeScreen()
 @Composable
 actual fun SyncNavigatorWithBrowser(navigator: Navigator) {
 }
+
+actual fun buildQueryFromParams(params: Map<String, String>): String = ""
