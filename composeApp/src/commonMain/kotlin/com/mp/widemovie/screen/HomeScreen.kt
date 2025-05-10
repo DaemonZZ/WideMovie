@@ -14,20 +14,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.viewmodel.HomeViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import widemovie.composeapp.generated.resources.Res
 import widemovie.composeapp.generated.resources.compose_multiplatform
 
-class HomeScreen : Screen {
-    override val key = "home"
-    companion object {
-        private const val TAG = "HomeScreen"
-    }
+class HomeScreen : BaseScreen() {
     @Composable
     override fun Content() {
         val nav = LocalNavigator.currentOrThrow
@@ -36,7 +32,7 @@ class HomeScreen : Screen {
             var showContent by remember { mutableStateOf(false) }
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                 Button(onClick = {
-                    nav += MovieDetail("natra-ma-dong-giang-the")
+                    nav += MovieDetail("natra")
                 }) {
                     Text("Click me!")
                 }
