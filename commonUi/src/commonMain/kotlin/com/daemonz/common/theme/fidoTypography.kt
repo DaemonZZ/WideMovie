@@ -1,6 +1,6 @@
 package com.daemonz.common.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -139,13 +139,13 @@ fun fidoTypography(
     bodyMedium: TextStyle = FidoTypographyTokens.Body.Light_10_130,
     bodySmall: TextStyle = FidoTypographyTokens.Body.SmallLight_10_130,
 ): Typography = Typography(
-    displayLarge = displayHeavy,
-    displayMedium = displayLight,
-    headlineLarge = headlineLarge,
-    headlineMedium = headlineMedium,
-    titleLarge = titleLarge,
-    titleMedium = titleMedium,
-    bodyLarge = bodyLarge,
-    bodyMedium = bodyMedium,
-    bodySmall = bodySmall,
+    h1 = displayHeavy,
+    h2 = displayLight,
+    h3 = headlineLarge,
+    h4 = headlineMedium,
+    subtitle1 = titleLarge,
+    subtitle2 = titleMedium,
+    body1 = bodyLarge,
+    body2 = bodyMedium,
+    button = bodySmall,//TODO
 )
