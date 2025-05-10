@@ -7,3 +7,4 @@ import cafe.adriel.voyager.navigator.Navigator
 expect fun getInitialScreenFromUrl():Screen
 @Composable
 expect fun SyncNavigatorWithBrowser(navigator: Navigator)
+expect fun buildQueryFromParams(params: Map<String, String>): String

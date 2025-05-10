@@ -6,9 +6,6 @@ import com.mp.widemovie.base.BaseViewModel
 class HomeViewModel(
     private val repository: AppRepository
 ) : BaseViewModel() {
-    companion object {
-        private const val TAG = "HomeViewModel"
-    }
 
     fun getMovie(slug: String) {
         repository.getMovieBySlug(slug)
