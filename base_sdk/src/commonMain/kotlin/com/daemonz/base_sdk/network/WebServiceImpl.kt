@@ -25,7 +25,7 @@ class WebServiceImpl(
         private const val TAG = "WebServiceImpl"
     }
 
-    private suspend fun <D> handleApiCall(httpResponse: suspend () -> HttpResponse): Result<HttpResponse, Error> {
+    private suspend fun handleApiCall(httpResponse: suspend () -> HttpResponse): Result<HttpResponse, Error> {
         return runCatching {
             Result.Success(httpResponse.invoke())
         }.fold(
@@ -44,7 +44,7 @@ class WebServiceImpl(
     }
 
     override suspend fun getMovies(slug: String): Result<ListData, Error> {
-        return handleApiCall<ListData> {
+        return handleApiCall {
             client.get {
                 url {
                     protocol = URLProtocol.HTTPS
