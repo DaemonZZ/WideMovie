@@ -3,9 +3,9 @@ package com.mp.widemovie.extensions
 import com.daemonz.base_sdk.utils.TLog
 import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.base.getScreenKey
-import com.mp.widemovie.screen.HomeScreen
-import com.mp.widemovie.screen.MovieDetail
-import com.mp.widemovie.screen.TestScreen
+import com.mp.widemovie.ui.screen.HomeScreen
+import com.mp.widemovie.ui.screen.MovieDetail
+import com.mp.widemovie.ui.screen.TestScreen
 import kotlinx.browser.window
 
 object ScreenMapping {

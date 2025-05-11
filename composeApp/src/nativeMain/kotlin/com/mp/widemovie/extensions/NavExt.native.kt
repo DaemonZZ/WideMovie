@@ -3,7 +3,7 @@ package com.mp.widemovie.extensions
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
-import com.mp.widemovie.screen.HomeScreen
+import com.mp.widemovie.ui.screen.HomeScreen
 
 actual fun getInitialScreenFromUrl(): Screen = HomeScreen()
 

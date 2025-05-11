@@ -36,3 +36,8 @@ inline fun <T, E: Error> Result<T, E>.onError(action: (E) -> Unit): Result<T, E>
 }
 
 typealias EmptyResult<E> = Result<Unit, E>
+
+interface OnResultListener<T, E: Error> {
+    fun onSuccess(data: T)
+    fun onError(error: E)
+}
