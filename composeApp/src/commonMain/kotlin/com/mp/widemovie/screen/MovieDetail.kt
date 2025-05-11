@@ -1,10 +1,10 @@
 package com.mp.widemovie.screen
 
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.daemonz.common.components.buttons.BaseButtonText
+import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.extensions.buildQueryFromParams
 
@@ -13,14 +13,13 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         "film" to slug.toString()
     ))}"
     @Composable
-    override fun Content() {
+    override fun Content() = FidoTheme {
         val nav = LocalNavigator.currentOrThrow
-        Button(
+        BaseButtonText(
+            text = "Next",
             onClick = {
                 nav += TestScreen("hello")
             }
-        ) {
-            Text("Next")
-        }
+        )
     }
 }
