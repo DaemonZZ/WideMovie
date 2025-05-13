@@ -37,8 +37,7 @@ class VideoFileMaker(
         mSlug = slug
     }
 
-    private fun fetchM3U8Content(): List<String> {
-        TLog.d(TAG, "fetchM3U8Content: ${ioScope.coroutineContext}")
+    private suspend fun fetchM3U8Content(): List<String> {
         return readM3u8File(m3u8Url, referer, cacheFileEvent)
     }
 
@@ -46,7 +45,7 @@ class VideoFileMaker(
         writeCacheFile(filePath, lines, mSlug, cacheFileEvent)
     }
 
-    fun convertFile() {
+    suspend fun convertFile() {
         TLog.d(TAG, "convertFile: $m3u8Url")
         try {
             val contentLines = fetchM3U8Content()
@@ -94,7 +93,7 @@ class VideoFileMaker(
     }
 
     //For Integration Test
-    fun collectTs() {
+    suspend fun collectTs() {
         try {
             val contentLines = fetchM3U8Content()
             var count = 0

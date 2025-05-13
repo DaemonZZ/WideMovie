@@ -2,6 +2,7 @@ package com.mp.widemovie.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
@@ -18,8 +19,13 @@ abstract class BaseViewModel(
     val state: StateFlow<String> get() = _state
     var errorMessage = MutableStateFlow<String?>(null)
     var otherMessage = MutableStateFlow<String?>(null)
+
+    private val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        throwable.printStackTrace()
+        errorMessage.value = throwable.message
+    }
     fun launchOnUI(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch {
+        return viewModelScope.launch (exceptionHandler){
             try {
                 block()
             } catch (ex: Exception) {
@@ -29,7 +35,7 @@ abstract class BaseViewModel(
     }
 
     fun launchOnIO(block: suspend CoroutineScope.() -> Unit): Job {
-        return ioScope.launch {
+        return ioScope.launch (exceptionHandler){
             try {
                 block()
             } catch (ex: Exception) {

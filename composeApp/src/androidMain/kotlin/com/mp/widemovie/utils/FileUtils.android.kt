@@ -11,7 +11,7 @@ import java.net.URL
 
 private const val TAG = "FileUtils.android"
 
-actual fun readM3u8File(path: String, referer:String, cacheFileEvent: CacheFileEvent): List<String>  {
+actual suspend fun readM3u8File(path: String, referer:String, cacheFileEvent: CacheFileEvent): List<String>  {
     val lines = mutableListOf<String>()
     val url = URL(path)
     val connection = url.openConnection() as HttpURLConnection
