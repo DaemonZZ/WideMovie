@@ -31,16 +31,16 @@ kotlin {
         }
     }
     
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
+//    listOf(
+//        iosX64(),
+//        iosArm64(),
+//        iosSimulatorArm64()
+//    ).forEach { iosTarget ->
+//        iosTarget.binaries.framework {
+//            baseName = "ComposeApp"
+//            isStatic = true
+//        }
+//    }
     
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -68,6 +68,10 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.androidx.media3.exoplayer.hls)
+            implementation("androidx.media3:media3-exoplayer:1.3.1")
+            implementation("androidx.media3:media3-ui:1.3.1")
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)

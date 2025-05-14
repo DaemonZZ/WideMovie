@@ -1,10 +1,12 @@
 package com.daemonz.base_sdk.repo
 
 import com.daemonz.base_sdk.base.BaseRepository
+import com.daemonz.base_sdk.model.Item
 import com.daemonz.base_sdk.network.IWebService
 import com.daemonz.base_sdk.network.WebServiceImpl
 import com.daemonz.base_sdk.network.createKtorClient
-import com.daemonz.base_sdk.utils.TLog
+import com.daemonz.base_sdk.utils.Error
+import com.daemonz.base_sdk.utils.OnResultListener
 import com.daemonz.base_sdk.utils.onError
 import com.daemonz.base_sdk.utils.onSuccess
 import kotlinx.coroutines.CoroutineScope
@@ -16,12 +18,12 @@ class AppRepository(): BaseRepository() {
         private const val TAG = "AppRepository"
     }
     private val mWebService: IWebService = WebServiceImpl(createKtorClient())
-    fun getMovieBySlug(slug: String) {
+    fun getMovieBySlug(slug: String, onResultListener: OnResultListener<Item?, Error>) {
         CoroutineScope(Dispatchers.Default).launch {
             mWebService.getMovies(slug).onSuccess { list ->
-                TLog.d(TAG, list.toString())
+                onResultListener.onSuccess(list.data.item)
             }.onError { e ->
-                TLog.e(TAG, e.toString())
+                onResultListener.onError(e)
             }
         }
 

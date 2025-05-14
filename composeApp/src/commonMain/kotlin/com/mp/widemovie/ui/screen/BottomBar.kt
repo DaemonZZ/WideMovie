@@ -1,4 +1,4 @@
-package com.mp.widemovie.screen
+package com.mp.widemovie.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

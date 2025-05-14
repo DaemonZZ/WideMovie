@@ -3,8 +3,10 @@ package com.mp.widemovie.di
 import com.daemonz.base_sdk.base.BaseRepository
 import com.daemonz.base_sdk.repo.AppRepository
 import com.mp.widemovie.getPlatform
+import com.mp.widemovie.utils.provideIoCoroutineScope
 import com.mp.widemovie.viewmodel.DetailViewModel
 import com.mp.widemovie.viewmodel.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -23,8 +25,9 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
+    single<CoroutineScope> { provideIoCoroutineScope() }
     singleOf(::AppRepository) { bind<BaseRepository>() }
-    viewModel { HomeViewModel(get()) }
-    viewModel { DetailViewModel(get()) }
+    viewModel { HomeViewModel(get(),get()) }
+    viewModel { DetailViewModel(get(),get()) }
     factory { getPlatform(this) }
 }
