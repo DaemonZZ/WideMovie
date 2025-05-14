@@ -1,4 +1,4 @@
-package com.mp.widemovie.screen
+package com.mp.widemovie.ui.screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -77,7 +77,7 @@ class HomeScreen : BaseScreen() {
                         }
                     )
                     Button(onClick = {
-                        nav += MovieDetail("natra")
+                        nav += MovieDetail("natra-ma-dong-giang-the")
                     }) {
                         Text("Click me!")
                     }

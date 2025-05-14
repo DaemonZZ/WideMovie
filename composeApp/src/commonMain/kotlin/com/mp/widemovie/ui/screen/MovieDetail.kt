@@ -2,6 +2,7 @@ package com.mp.widemovie.ui.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -25,6 +26,9 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         val viewModel: DetailViewModel = koinViewModel()
         val vid by viewModel.testVideo.collectAsState()
         Column {
+            LaunchedEffect (1){
+                viewModel.loadMovie(slug.toString())
+            }
             BaseButtonText(
                 text = "Click Call API",
                 onClick = { viewModel.loadMovie(slug.toString()) })
