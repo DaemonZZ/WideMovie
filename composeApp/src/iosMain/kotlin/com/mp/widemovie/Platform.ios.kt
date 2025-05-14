@@ -8,3 +8,5 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(scope: Scope): Platform = IOSPlatform()
+
+actual val CurrentUIType: UIType = UIType.Ios

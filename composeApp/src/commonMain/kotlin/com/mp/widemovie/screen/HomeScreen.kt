@@ -18,6 +18,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +36,8 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.daemonz.base_sdk.utils.TLog
+import com.mp.widemovie.CurrentUIType
+import com.mp.widemovie.UIType
 import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.viewmodel.HomeViewModel
 import kotlinx.coroutines.FlowPreview
@@ -53,23 +56,41 @@ class HomeScreen : BaseScreen() {
     override fun Content() {
         val nav = LocalNavigator.currentOrThrow
         val viewModel: HomeViewModel = koinViewModel()
+        val categoryUI = CurrentUIType
         MaterialTheme {
-            var showContent by remember { mutableStateOf(false) }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(Modifier.height(50.dp))
-                SearchView(
-                    onSearch = {
-                        // logic here
+            Scaffold(
+                bottomBar = { if (categoryUI == UIType.Android) AndroidBottomBar() },
+                drawerBackgroundColor = Color.Transparent,
+                drawerElevation = 0.dp,
+                drawerContent = { if (categoryUI == UIType.Web) WebNavigatorDrawer() },
+                drawerGesturesEnabled = (categoryUI == UIType.Web)
+            ) {
+                var showContent by remember { mutableStateOf(false) }
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(Modifier.height(50.dp))
+                    SearchView(
+                        onSearch = {
+                            // logic here
+                        }
+                    )
+                    Button(onClick = {
+                        nav += MovieDetail("natra")
+                    }) {
+                        Text("Click me!")
                     }
-                )
-                Button(onClick = {
-                    nav += MovieDetail("natra")
-                }) {
-                    Text("Click me!")
-                }
-                AnimatedVisibility(showContent) {
-                    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(painterResource(Res.drawable.compose_multiplatform), null)
+                    AnimatedVisibility(showContent) {
+                        Column(
+                            Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painterResource(Res.drawable.compose_multiplatform),
+                                null
+                            )
+                        }
                     }
                 }
             }
