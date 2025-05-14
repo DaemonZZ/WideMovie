@@ -7,3 +7,5 @@ class WasmPlatform: Platform {
 }
 
 actual fun getPlatform(scope: Scope): Platform = WasmPlatform()
+
+actual val CurrentUIType: UIType = UIType.Web

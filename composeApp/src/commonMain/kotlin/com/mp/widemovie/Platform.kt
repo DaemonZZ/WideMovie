@@ -7,3 +7,12 @@ interface Platform {
 }
 
 expect fun getPlatform(scope: Scope): Platform
+
+expect val CurrentUIType: UIType
+
+
+enum class UIType {
+    Android,
+    Web,
+    Ios
+}

@@ -9,3 +9,5 @@ class AndroidPlatform(context: Context) : Platform {
 }
 
 actual fun getPlatform(scope: Scope): Platform = AndroidPlatform(scope.get())
+
+actual val CurrentUIType: UIType = UIType.Android
