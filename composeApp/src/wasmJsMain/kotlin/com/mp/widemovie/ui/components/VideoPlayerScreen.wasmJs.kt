@@ -47,12 +47,12 @@ actual fun VideoPlayerScreen(videoUrl: String, slug: String) {
             container.appendChild(video)
             video.scrollIntoView()
             // Gọi HLS.js để play .m3u8
-            callJs(videoUrl)
+            playM3U8WithHls(videoUrl)
         }
     }
 
 }
-fun callJs(videoUrl: String) {
+fun playM3U8WithHls(videoUrl: String) {
     js("""
                 if (Hls.isSupported()) {
                     const hls = new Hls();
@@ -74,37 +74,4 @@ fun callJs(videoUrl: String) {
                     alert("Trình duyệt không hỗ trợ HLS.");
                 }
             """)
-}
-fun playM3U8WithHls(blobUrl: String) {
-    js("""
-        const old = document.getElementById("video");
-        if (old) old.remove();
-
-        const video = document.createElement('video');
-        video.id = 'video';
-        video.controls = true;
-        video.autoplay = true;
-         video.width = 640;
-        video.height = 360;
-        video.style.backgroundColor = 'black';
-        video.style.display = 'block';
-        video.style.border = '1px solid red';
-        document.body.appendChild(video);
-
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(blobUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                video.play();
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = blobUrl;
-            video.addEventListener('loadedmetadata', function () {
-                video.play();
-            });
-        } else {
-            alert("HLS not supported in this browser.");
-        }
-    """)
 }

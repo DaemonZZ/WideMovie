@@ -45,6 +45,10 @@ actual fun writeCacheFile(
     cacheFileEvent.onCachedFileCreated(objectUrl, slug)
 }
 
+actual fun deleteCachedFile() {
+
+}
+//fof testing
 fun downloadFile(filename: String) {
     val url = window.sessionStorage.getItem(filename) ?: return
     TLog.d(TAG, "downloadFile: $url")
@@ -52,8 +56,4 @@ fun downloadFile(filename: String) {
     anchor.href = url
     anchor.download = filename
     anchor.click()
-}
-
-actual fun deleteCachedFile() {
-
 }
