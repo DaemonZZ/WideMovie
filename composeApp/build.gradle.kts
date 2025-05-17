@@ -74,6 +74,7 @@ kotlin {
 
         }
         commonMain.dependencies {
+            api("io.github.qdsfdhvh:image-loader:1.10.0")
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -105,7 +106,6 @@ kotlin {
             implementation(libs.voyager.transitions)
             // Koin integration
 //            implementation(libs.voyager.koin) // Chưa hỗ trợ wasm
-
         }
         wasmJsMain.dependencies {
         }

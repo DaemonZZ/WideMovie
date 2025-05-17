@@ -52,25 +52,25 @@ fun ThemeColorSample() = FidoTheme {
             Modifier
                 .aspectRatio(1f)
                 .size(10.dp, 10.dp)
-                .background(color = colorScheme.primary)
+                .background(color = colorScheme.Primaryest)
         )
         Box(
             Modifier
                 .aspectRatio(1f)
                 .size(10.dp, 10.dp)
-                .background(color = colorScheme.onPrimary)
+                .background(color = colorScheme.Neutral_TextColors_HighEmp)
         )
         Box(
             Modifier
                 .aspectRatio(1f)
                 .size(10.dp, 10.dp)
-                .background(color = colorScheme.secondary)
+                .background(color = colorScheme.Secondaryest)
         )
         Box(
             Modifier
                 .aspectRatio(1f)
                 .size(10.dp, 10.dp)
-                .background(color = colorScheme.primary)
+                .background(color = colorScheme.Neutral_TextColors_MidEmp)
         )
     }
 }
@@ -131,6 +131,6 @@ fun ThemeShapeSample() = FidoTheme {
             text = "Like",
             onClick = {}
         )
-        BaseOutlinedButton(text = "BaseOutlinedButton", onClick = {}, shape = shape.medium)
+        BaseOutlinedButton(content = { BaseText(text = "BaseOutlinedButton") }, onClick = {}, shape = shape.medium)
     }
 }
