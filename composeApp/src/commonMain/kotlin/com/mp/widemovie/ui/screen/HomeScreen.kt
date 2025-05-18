@@ -2,16 +2,19 @@ package com.mp.widemovie.ui.screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Button
@@ -70,12 +73,15 @@ class HomeScreen : BaseScreen() {
                     Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Spacer(Modifier.height(50.dp))
+                    Header(Modifier.width(300.dp).fillMaxHeight(0.3f))
+                    Body(Modifier.fillMaxWidth().fillMaxHeight(0.3f).background(Color.Red))
+                    Footer(Modifier.fillMaxWidth().fillMaxHeight(0.3f).background(Color.Green))
+                    /*Spacer(Modifier.height(50.dp))
                     SearchView(
                         onSearch = {
                             // logic here
                         }
-                    )
+                    )*/
                     Button(onClick = {
                         nav += MovieDetail("natra-ma-dong-giang-the")
                     }) {
