@@ -74,6 +74,7 @@ kotlin {
 
         }
         commonMain.dependencies {
+            api("io.github.qdsfdhvh:image-loader:1.10.0")
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
