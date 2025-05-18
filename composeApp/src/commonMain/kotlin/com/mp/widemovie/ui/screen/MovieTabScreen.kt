@@ -30,9 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.daemonz.common.components.text.BaseText
 import com.daemonz.common.theme.FidoTheme
+import com.mp.widemovie.extensions.rememberAsyncImagePainter
+import com.mp.widemovie.ui.DemoData.sampleMovies
 
 @Composable
 fun MovieTabScreen(
@@ -79,23 +80,10 @@ fun MovieTabScreen(
 
 data class Movie(val title: String, val imageRes: String, val rating: String)
 
-val sampleMovies = listOf(
-    Movie("Pushpa", "pushpa.jpg", "8.5"),
-    Movie("Oblivion", "oblivion.jpg", "8.5"),
-    Movie("Fallout", "fallout.jpg", "8.5"),
-    Movie("Top Gun Maverick", "topgun.jpg", "8.5"),
-    Movie("Pushpa", "pushpa.jpg", "8.5"),
-    Movie("Oblivion", "oblivion.jpg", "8.5"),
-    Movie("Fallout", "fallout.jpg", "8.5"),
-    Movie("Top Gun Maverick", "topgun.jpg", "8.5"),
-)
-
 @Composable
 fun MovieCard(movie: Movie) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.DarkGray)
     ) {
         Column {
             // Poster
@@ -103,31 +91,34 @@ fun MovieCard(movie: Movie) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.DarkGray)
             ) {
                 // Replace with real image loading
                 Image(
                     painter = rememberAsyncImagePainter(movie.imageRes), // Add to resources
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).fillMaxSize()
                 )
 
                 // Rating badge
-                Box(
+                Row(
                     modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(6.dp)
-                        .background(Color.Red, shape = RoundedCornerShape(8.dp))
-                        .padding(horizontal = 6.dp, vertical = 2.dp)
+                        .padding(8.dp)
+                        .align(Alignment.BottomEnd),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     BaseText(
+                        modifier = Modifier
+                            .background(Color.Red, shape = RoundedCornerShape(8.dp))
+                            .padding(horizontal = 6.dp, vertical = 2.dp),
                         text = movie.rating,
                         style = FidoTheme.typography.subtitle1,
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(6.dp))
 
             // Title
             BaseText(
