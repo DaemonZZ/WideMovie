@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -36,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.daemonz.base_sdk.utils.TLog
+import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.CurrentUIType
 import com.mp.widemovie.UIType
 import com.mp.widemovie.base.BaseScreen
@@ -57,7 +57,7 @@ class HomeScreen : BaseScreen() {
         val nav = LocalNavigator.currentOrThrow
         val viewModel: HomeViewModel = koinViewModel()
         val categoryUI = CurrentUIType
-        MaterialTheme {
+        FidoTheme {
             Scaffold(
                 bottomBar = { if (categoryUI == UIType.Android) AndroidBottomBar() },
                 drawerBackgroundColor = Color.Transparent,

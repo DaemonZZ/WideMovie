@@ -12,9 +12,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.daemonz.common.components.text.rememberFontFamily
 import com.daemonz.common.theme.dark.fidoDarkColorScheme
 import com.daemonz.common.theme.light.fidoLightColorScheme
+import org.jetbrains.compose.resources.Font
+import widemovie.commonui.generated.resources.Res
+import widemovie.commonui.generated.resources.kanit_bold
+import widemovie.commonui.generated.resources.kanit_medium
+import widemovie.commonui.generated.resources.kanit_semibold
+import widemovie.commonui.generated.resources.kanit_thin
 
 internal val LocalTypography = staticCompositionLocalOf { fidoTypography() }
 internal val LocalColorScheme = staticCompositionLocalOf { fidoDarkColorScheme() }

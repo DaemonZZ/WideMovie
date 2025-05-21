@@ -3,52 +3,33 @@ package com.daemonz.common.theme.light
 import com.daemonz.common.theme.FidoPaletteTokens
 
 internal object ColorLightTokens {
-    val Background = FidoPaletteTokens.Neutral_TextColorsWhite_HighEmp
-    val Error = FidoPaletteTokens.StatusColorError
-    val ErrorContainer = FidoPaletteTokens.Error90
-    val InverseOnSurface = FidoPaletteTokens.Neutral_TextColorsWhite_MidEmp
-    val InversePrimary = FidoPaletteTokens.Primary80
-    val InverseSurface = FidoPaletteTokens.Neutral20
-    val OnBackground = FidoPaletteTokens.Neutral_TextColorsBlack_MidEmp
-    val OnError = FidoPaletteTokens.Error100
-    val OnErrorContainer = FidoPaletteTokens.Error10
-    val OnPrimary = FidoPaletteTokens.Neutral_TextColorsBlack_HighEmp
-    val OnPrimaryContainer = FidoPaletteTokens.Primary10
-    val OnPrimaryFixed = FidoPaletteTokens.Primary10
-    val OnPrimaryFixedVariant = FidoPaletteTokens.Primary30
-    val OnSecondary = FidoPaletteTokens.Secondary100
-    val OnSecondaryContainer = FidoPaletteTokens.Secondary10
-    val OnSecondaryFixed = FidoPaletteTokens.Secondary10
-    val OnSecondaryFixedVariant = FidoPaletteTokens.Secondary30
-    val OnSurface = FidoPaletteTokens.Neutral_TextColorsBlack_MidEmp
-    val OnSurfaceVariant = FidoPaletteTokens.NeutralVariant30
-    val OnTertiary = FidoPaletteTokens.Tertiary100
-    val OnTertiaryContainer = FidoPaletteTokens.Tertiary10
-    val OnTertiaryFixed = FidoPaletteTokens.Tertiary10
-    val OnTertiaryFixedVariant = FidoPaletteTokens.Tertiary30
-    val Outline = FidoPaletteTokens.NeutralVariant50
+    val PrimaryMain = FidoPaletteTokens.PrimaryMain
     val Primary = FidoPaletteTokens.PrimaryLight
-    val OutlineVariant = FidoPaletteTokens.NeutralVariant80
-    val PrimaryContainer = FidoPaletteTokens.Primary90
-    val PrimaryFixed = FidoPaletteTokens.Primary90
-    val PrimaryFixedDim = FidoPaletteTokens.Primary80
-    val Scrim = FidoPaletteTokens.Neutral_TextColorsBlack_HighEmp
+    val Primaryer = FidoPaletteTokens.PrimaryLighter
+    val Primaryest = FidoPaletteTokens.PrimaryLightest
+
+    val SecondaryMain = FidoPaletteTokens.SecondaryMain
     val Secondary = FidoPaletteTokens.SecondaryLight
-    val SecondaryContainer = FidoPaletteTokens.Secondary90
-    val SecondaryFixed = FidoPaletteTokens.Secondary90
-    val SecondaryFixedDim = FidoPaletteTokens.Secondary80
-    val Surface = FidoPaletteTokens.Neutral_TextColorsWhite_HighEmp
-    val SurfaceBright = FidoPaletteTokens.Neutral_TextColorsWhite_HighEmp
-    val SurfaceContainer = FidoPaletteTokens.Neutral94
-    val SurfaceContainerHigh = FidoPaletteTokens.Neutral92
-    val SurfaceContainerHighest = FidoPaletteTokens.Neutral90
-    val SurfaceContainerLow = FidoPaletteTokens.Neutral96
-    val SurfaceContainerLowest = FidoPaletteTokens.Neutral100
-    val SurfaceDim = FidoPaletteTokens.Neutral_TextColorsWhite_LowEmp
-    val SurfaceTint = Primary
-    val SurfaceVariant = FidoPaletteTokens.NeutralVariant90
-    val Tertiary = FidoPaletteTokens.Tertiary40
-    val TertiaryContainer = FidoPaletteTokens.Tertiary90
-    val TertiaryFixed = FidoPaletteTokens.Tertiary90
-    val TertiaryFixedDim = FidoPaletteTokens.Tertiary80
+    val Secondaryer = FidoPaletteTokens.SecondaryLighter
+    val Secondaryest = FidoPaletteTokens.SecondaryLightest
+
+    val Neutral_TextColors_HighEmp = FidoPaletteTokens.Neutral_TextColorsBlack_HighEmp
+    val Neutral_TextColors_MidEmp = FidoPaletteTokens.Neutral_TextColorsBlack_MidEmp
+    val Neutral_TextColors_LowEmp = FidoPaletteTokens.Neutral_TextColorsBlack_LowEmp
+    val Neutral_TextColorsDisabled = FidoPaletteTokens.Neutral_TextColorsDisabled
+    val Neutral_TextColorsGreyPurpleHighEmp = FidoPaletteTokens.Neutral_TextColorsGreyPurpleHighEmp
+    val Neutral_TextColorsGreyPurpleLowEmp = FidoPaletteTokens.Neutral_TextColorsGreyPurpleLowEmp
+    val Neutral_TextColorsGreyPurpleBlack = FidoPaletteTokens.Neutral_TextColorsGreyPurpleBlack
+
+    val StatusColorError = FidoPaletteTokens.StatusColorError
+    val StatusColorSuccess = FidoPaletteTokens.StatusColorSuccess
+    val StatusColorWarning = FidoPaletteTokens.StatusColorWarning
+    val StatusColorInfo = FidoPaletteTokens.StatusColorInfo
+    val StatusColorAlert = FidoPaletteTokens.StatusColorAlert
+
+    val Gradient1_start = FidoPaletteTokens.Gradient1_start
+    val Gradient1_center = FidoPaletteTokens.Gradient1_center
+    val Gradient1_end = FidoPaletteTokens.Gradient1_end
+    val Gradient2_start = FidoPaletteTokens.Gradient2_start
+    val Gradient2_end = FidoPaletteTokens.Gradient2_end
 }
