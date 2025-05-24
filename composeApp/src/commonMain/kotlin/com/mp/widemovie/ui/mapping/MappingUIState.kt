@@ -8,12 +8,20 @@ import com.mp.widemovie.ui.uistate.EpisodeDetailUIState
 import com.mp.widemovie.ui.uistate.EpisodeUIState
 
 fun Episode.toEpisodeUIState(): EpisodeUIState {
-    return EpisodeUIState(serverName = serverName, serverData = serverData.map {
-        EpisodeDetailUIState(slug = it.slug, title = it.name, thumbnailUrl = it.filename)
+    return EpisodeUIState(
+        serverName = serverName,
+        serverData = serverData.map {
+        EpisodeDetailUIState(
+            slug = it.slug,
+            title = it.name,
+            thumbnailUrl = it.filename,
+            m3u8Url = it.m3u8,
+            url = it.url
+        )
     })
 }
 
-fun Item.toContentUIState() : ContentUIState {
+fun Item.toContentUIState(): ContentUIState {
     val listCast = director.map {
         CastMemberUIState(
             name = it,

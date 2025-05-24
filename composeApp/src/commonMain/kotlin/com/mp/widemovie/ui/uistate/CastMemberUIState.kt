@@ -1,5 +1,8 @@
 package com.mp.widemovie.ui.uistate
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class CastMemberUIState(
     val name: String,
     val role: String,

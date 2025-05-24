@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,25 +28,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.components.buttons.BaseButtonWithIcon
 import com.daemonz.common.components.buttons.BaseIcon
 import com.daemonz.common.components.buttons.BaseIconButton
@@ -93,73 +82,49 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
             viewModel.loadMovie(slug.toString())
         }
         val uiState: DetailScreenState by viewModel.uiState.collectAsState()
+        val selectedServer: EpisodeUIState? by viewModel.selectedServer.collectAsState()
+
         Scaffold(
             modifier = Modifier
                 .background(FidoTheme.colorScheme.onBackground)
                 .fillMaxSize(),
         ) { innerPadding ->
-            val maxImageSize: Dp = 300.dp
-            val minImageSize: Dp = 100.dp
-            var currentImageSize by remember { mutableStateOf(maxImageSize) }
-            var imageScale by remember { mutableFloatStateOf(1f) }
-
-            val nestedScrollConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(
-                        available: Offset,
-                        source: NestedScrollSource,
-                    ): Offset {
-                        // Calculate the change in image size based on scroll delta
-                        val delta = available.y
-                        val newImageSize = currentImageSize + delta.dp
-                        val previousImageSize = currentImageSize
-
-                        // Constrain the image size within the allowed bounds
-                        currentImageSize = newImageSize.coerceIn(minImageSize, maxImageSize)
-                        val consumed = currentImageSize - previousImageSize
-
-                        // Calculate the scale for the image
-                        imageScale = currentImageSize / maxImageSize
-
-                        // Return the consumed scroll amount
-                        return Offset(0f, consumed.value)
-                    }
-                }
-            }
-
-            Box(Modifier.nestedScroll(nestedScrollConnection)) {
+            val scrollScreen = rememberScrollState()
+            Column(modifier = Modifier.verticalScroll(scrollScreen)) {
+                //Banner
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9f),
+                    painter = painterResource(Res.drawable.banner_ex),
+                    contentDescription = "Banner",
+                    contentScale = ContentScale.Crop,
+                )
                 BodyContent(
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState())
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp)
-                        .offset {
-                            IntOffset(0, currentImageSize.roundToPx())
-                        },
+                        .padding(horizontal = 15.dp),
                     contentUIState = uiState.contentUIState,
                     listEpisodeUIState = uiState.listEpisodeUIState,
-                    callbacks = BodyContentCallbacks({}, {}, {}, {}),//TODO:
+                    callbacks = BodyContentCallbacks(
+                        onPlayClick = {
+                            val item = viewModel.selectedServer.value?.serverData?.firstOrNull()
+                            if (item?.m3u8Url != null) {
+                                nav += MoviePlayerScreen(slug = "${slug}_${item.slug}", url =  item.m3u8Url, )
+                            } else {
+                                TLog.e(TAG, "item?.m3u8Url null")
+                            }
+                        },
+                        onRefresh = {},
+                        onItemClick = {},
+                        onSelectedServer = {
+                            viewModel.selectServer(it)
+                        }),//TODO:
+                    selectedServer = selectedServer,
                 )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                        .align(Alignment.TopCenter)
-                        .graphicsLayer {
-//                            scaleY = imageScale
-//                            // Center the image vertically as it scales
-//                            translationY = -(maxImageSize.toPx() - currentImageSize.toPx()) / 2f
-                        }
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.banner_ex),
-                        contentDescription = "Banner",
-                        contentScale = ContentScale.Crop,
-                    )
-                }
-
             }
 
+            // TopBar chồng lên trên
             BaseTopAppBar(modifier = Modifier.fillMaxWidth()) {
                 BaseIconButton(src = Res.drawable.ic_backspace, onClick = {
                     nav.popUntilRoot()

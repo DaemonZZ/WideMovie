@@ -6,6 +6,7 @@ import com.mp.widemovie.getPlatform
 import com.mp.widemovie.utils.provideIoCoroutineScope
 import com.mp.widemovie.viewmodel.DetailViewModel
 import com.mp.widemovie.viewmodel.HomeViewModel
+import com.mp.widemovie.viewmodel.MoviePlayerViewModel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.bind
@@ -29,5 +30,6 @@ val appModule = module {
     singleOf(::AppRepository) { bind<BaseRepository>() }
     viewModel { HomeViewModel(get(),get()) }
     viewModel { DetailViewModel(get(),get()) }
+    viewModel { MoviePlayerViewModel(get()) }
     factory { getPlatform(this) }
 }

@@ -1,5 +1,8 @@
 package com.mp.widemovie.ui.uistate
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class ContentUIState(
     val title: String = "",
     val rating: Double = 0.0,

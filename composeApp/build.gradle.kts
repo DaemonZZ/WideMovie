@@ -71,7 +71,7 @@ kotlin {
             implementation(libs.androidx.media3.exoplayer.hls)
             implementation("androidx.media3:media3-exoplayer:1.3.1")
             implementation("androidx.media3:media3-ui:1.3.1")
-
+            implementation(libs.androidx.core.ktx)
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
