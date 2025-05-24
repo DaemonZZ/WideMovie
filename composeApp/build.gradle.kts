@@ -72,7 +72,7 @@ kotlin {
             implementation(libs.androidx.media3.exoplayer.hls)
             implementation("androidx.media3:media3-exoplayer:1.3.1")
             implementation("androidx.media3:media3-ui:1.3.1")
-
+            implementation(libs.androidx.core.ktx)
         }
         commonMain.dependencies {
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha09") // Check for the latest Coil 3 version

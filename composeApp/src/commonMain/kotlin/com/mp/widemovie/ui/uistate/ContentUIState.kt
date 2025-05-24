@@ -1,5 +1,8 @@
 package com.mp.widemovie.ui.uistate
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class ContentUIState(
     val title: String = "",
     val rating: Double = 0.0,
@@ -13,6 +16,7 @@ data class ContentUIState(
     val isDownloadable: Boolean = true,
     val genres: List<String> = emptyList(),
     val description: String = "",
+    val posterUrl: String = "",
     val cast: List<CastMemberUIState> = emptyList(),
 )
 

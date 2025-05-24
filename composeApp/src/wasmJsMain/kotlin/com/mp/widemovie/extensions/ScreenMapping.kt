@@ -32,7 +32,8 @@ object ScreenMapping {
             }
             path.startsWith(getScreenKey(MoviePlayerScreen::class)) -> {
                 val id = getQueryParameter( "film")
-                MoviePlayerScreen(id)
+                val url = getQueryParameter( "url")
+                MoviePlayerScreen(slug = id, url = url)
             }
             else -> HomeScreen() // fallback nếu route không hợp lệ
         }

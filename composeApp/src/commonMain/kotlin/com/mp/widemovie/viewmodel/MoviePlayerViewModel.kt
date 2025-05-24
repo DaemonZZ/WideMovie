@@ -1,7 +1,6 @@
 package com.mp.widemovie.viewmodel
 
 import androidx.compose.ui.geometry.Rect
-import com.daemonz.base_sdk.model.EpisodeDetail
 import com.daemonz.base_sdk.utils.TLog
 import com.mp.widemovie.base.BaseViewModel
 import com.mp.widemovie.base.UIEffect
@@ -34,15 +33,14 @@ class MoviePlayerViewModel(
         private const val TAG = "VideoPlayerViewModel"
     }
 
-    private val _testVideo = MutableStateFlow<Pair<String, String>>(Pair("", ""))
-    val testVideo: StateFlow<Pair<String, String>> = _testVideo
+    private val _testVideo = MutableStateFlow<Pair<String, String>?>(null)
+    val testVideo: StateFlow<Pair<String, String>?> = _testVideo
 
     private val cacheFileEvent: CacheFileEvent = object : CacheFileEvent {
         override fun onCachedFileCreated(file: String, slug: String) {
             TLog.d(TAG, "onCachedFileCreated: $file")
             launchOnUI {
                 _testVideo.emit(Pair(file, slug))
-
             }
         }
 
@@ -53,9 +51,9 @@ class MoviePlayerViewModel(
 
     private val videoFileMaker = VideoFileMaker(cacheFileEvent, ioScope)
 
-    fun prepareVideo(item: EpisodeDetail) = launchOnIO {
-        videoFileMaker.setM3U8Url(item.m3u8)
-        videoFileMaker.setSlug("${item.slug}_${item.slug}")
+    fun prepareVideo(url: String, slug: String) = launchOnIO {
+        videoFileMaker.setM3U8Url(url)
+        videoFileMaker.setSlug(slug)
         videoFileMaker.convertFile()
     }
 
