@@ -8,6 +8,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
 import org.jetbrains.compose.resources.Font
 import widemovie.commonui.generated.resources.Res
@@ -25,6 +28,7 @@ fun BaseText(
     maxLines: Int = Int.MAX_VALUE,
     minLines: Int = 1,
     fontFamily: FontFamily = FontFamily.Default,
+    fontSize: TextUnit = FidoTheme.typography.body1.fontSize
 ) = Text(
     text = text,
     modifier = modifier,

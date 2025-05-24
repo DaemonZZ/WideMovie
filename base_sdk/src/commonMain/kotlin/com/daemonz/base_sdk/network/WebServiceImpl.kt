@@ -2,6 +2,7 @@ package com.daemonz.base_sdk.network
 
 import com.daemonz.base_sdk.BASE_URL
 import com.daemonz.base_sdk.model.ListData
+import com.daemonz.base_sdk.model.home.HomeResponse
 import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.NetworkError
 import com.daemonz.base_sdk.utils.Result
@@ -56,4 +57,19 @@ class WebServiceImpl(
             data.body()
         }
     }
+
+    override suspend fun getHomeData(): Result<HomeResponse, Error> {
+        return handleApiCall {
+            client.get {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BASE_URL
+                    path("home")
+                }
+            }
+        }.map { data ->
+            data.body()
+        }
+    }
+
 }
