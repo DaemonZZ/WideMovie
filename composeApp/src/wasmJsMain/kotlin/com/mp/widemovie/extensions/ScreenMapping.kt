@@ -5,6 +5,7 @@ import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.base.getScreenKey
 import com.mp.widemovie.ui.screen.HomeScreen
 import com.mp.widemovie.ui.screen.MovieDetail
+import com.mp.widemovie.ui.screen.MoviePlayerScreen
 import com.mp.widemovie.ui.screen.TestScreen
 import kotlinx.browser.window
 
@@ -28,6 +29,10 @@ object ScreenMapping {
             path.startsWith(getScreenKey(TestScreen::class)) -> {
                 val id = getQueryParameter( "param")
                 TestScreen(id)
+            }
+            path.startsWith(getScreenKey(MoviePlayerScreen::class)) -> {
+                val id = getQueryParameter( "film")
+                MoviePlayerScreen(id)
             }
             else -> HomeScreen() // fallback nếu route không hợp lệ
         }

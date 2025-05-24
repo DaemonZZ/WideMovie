@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.components.buttons.BaseButtonWithIcon
 import com.daemonz.common.components.buttons.BaseIcon
 import com.daemonz.common.components.buttons.BaseIconButton
@@ -59,11 +58,11 @@ import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.extensions.buildQueryFromParams
 import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.mp.widemovie.ui.components.BaseTopAppBar
-import com.mp.widemovie.ui.components.VideoPlayerScreen
 import com.mp.widemovie.ui.uistate.CastMemberUIState
 import com.mp.widemovie.ui.uistate.ContentUIState
 import com.mp.widemovie.ui.uistate.EpisodeDetailUIState
 import com.mp.widemovie.ui.uistate.EpisodeUIState
+import com.mp.widemovie.viewmodel.DetailScreenState
 import com.mp.widemovie.viewmodel.DetailViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -90,17 +89,15 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
     override fun Content() = FidoTheme(isDarkTheme = true) {
         val nav = LocalNavigator.currentOrThrow
         val viewModel: DetailViewModel = koinViewModel()
-        val vid by viewModel.testVideo.collectAsState()
         LaunchedEffect(Unit) {
             viewModel.loadMovie(slug.toString())
         }
+        val uiState: DetailScreenState by viewModel.uiState.collectAsState()
         Scaffold(
             modifier = Modifier
                 .background(FidoTheme.colorScheme.onBackground)
                 .fillMaxSize(),
         ) { innerPadding ->
-            val itemInfo: ContentUIState by viewModel.contentUIState.collectAsState()
-            val listActorInfo: List<EpisodeUIState> by viewModel.listEpisodeUIState.collectAsState()
             val maxImageSize: Dp = 300.dp
             val minImageSize: Dp = 100.dp
             var currentImageSize by remember { mutableStateOf(maxImageSize) }
@@ -139,9 +136,9 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
                         .offset {
                             IntOffset(0, currentImageSize.roundToPx())
                         },
-                    contentUIState = itemInfo,
-                    listEpisodeUIState = listActorInfo,
-                    viewModel = viewModel,
+                    contentUIState = uiState.contentUIState,
+                    listEpisodeUIState = uiState.listEpisodeUIState,
+                    callbacks = BodyContentCallbacks({}, {}, {}, {}),//TODO:
                 )
                 Box(
                     modifier = Modifier
@@ -159,11 +156,6 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
                         contentDescription = "Banner",
                         contentScale = ContentScale.Crop,
                     )
-
-                    vid.let {
-                        TLog.d(TAG, "random: $it")
-                        VideoPlayerScreen(it.first, it.second)
-                    }
                 }
 
             }
@@ -185,13 +177,11 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         modifier: Modifier = Modifier,
         contentUIState: ContentUIState = ContentUIState(),
         listEpisodeUIState: List<EpisodeUIState> = emptyList(),
-        viewModel: DetailViewModel,
+        selectedServer: EpisodeUIState? = null,
+        callbacks: BodyContentCallbacks,
     ) {
-        val selectedServer : EpisodeUIState? by viewModel.selectedServer.collectAsState()
         Column(modifier = modifier) {
-            TitleSection(contentUIState, onPlayClick = {
-                viewModel.loadMovie(slug.toString())
-            })
+            TitleSection(contentUIState, onPlayClick = { callbacks.onPlayClick() })
             Spacer(modifier = Modifier.height(24.dp))
             GenreAndDescription(contentUIState.genres, contentUIState.description)
             Spacer(modifier = Modifier.height(24.dp))
@@ -201,7 +191,7 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
                     modifier = Modifier,
                     episodeUIStates = listEpisodeUIState,
                     onEpisodeClick = {
-                        viewModel.selectServer(it)
+                        callbacks.onSelectedServer(it)
                     })
                 selectedServer?.let {
                     EpisodesSection(
@@ -470,4 +460,10 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         }
     }
 
+    data class BodyContentCallbacks(
+        val onItemClick: (String) -> Unit,
+        val onRefresh: () -> Unit,
+        val onPlayClick: () -> Unit,
+        val onSelectedServer: (EpisodeUIState) -> Unit,
+    )
 }
