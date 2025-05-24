@@ -2,6 +2,7 @@ package com.daemonz.base_sdk.repo
 
 import com.daemonz.base_sdk.base.BaseRepository
 import com.daemonz.base_sdk.model.Item
+import com.daemonz.base_sdk.model.ListData
 import com.daemonz.base_sdk.network.IWebService
 import com.daemonz.base_sdk.network.WebServiceImpl
 import com.daemonz.base_sdk.network.createKtorClient
@@ -26,6 +27,15 @@ class AppRepository(): BaseRepository() {
                 onResultListener.onError(e)
             }
         }
+    }
 
+     fun getHomeData(onResultListener: OnResultListener<ListData?, Error>) {
+        CoroutineScope(Dispatchers.Default).launch {
+            mWebService.getHomeData().onSuccess { response ->
+                onResultListener.onSuccess(response)
+            }.onError { e ->
+                onResultListener.onError(e)
+            }
+        }
     }
 }

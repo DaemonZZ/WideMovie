@@ -1,23 +1,16 @@
 package com.mp.widemovie.ui.screen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
@@ -38,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.daemonz.base_sdk.utils.TLog
+import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.CurrentUIType
 import com.mp.widemovie.UIType
@@ -50,7 +44,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import widemovie.composeapp.generated.resources.Res
-import widemovie.composeapp.generated.resources.compose_multiplatform
 import widemovie.composeapp.generated.resources.hint_search
 import widemovie.composeapp.generated.resources.ic_search
 
@@ -68,36 +61,34 @@ class HomeScreen : BaseScreen() {
                 drawerContent = { if (categoryUI == UIType.Web) WebNavigatorDrawer() },
                 drawerGesturesEnabled = (categoryUI == UIType.Web)
             ) {
-                var showContent by remember { mutableStateOf(false) }
                 Column(
-                    Modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth().background(FidoPaletteTokens.Secondary10),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Header(Modifier.width(300.dp).fillMaxHeight(0.3f))
-                    Body(Modifier.fillMaxWidth().fillMaxHeight(0.3f).background(Color.Red))
-                    Footer(Modifier.fillMaxWidth().fillMaxHeight(0.3f).background(Color.Green))
+                    Header(Modifier.fillMaxWidth().weight(1f), viewModel) {
+                        nav += MovieDetail(it)
+                    }
+                    Body(Modifier.fillMaxWidth().weight(1f), viewModel) {
+                        nav += MovieDetail(it)
+
+                    }
+                    Footer(Modifier.fillMaxWidth().weight(1.3f), viewModel) {
+                        nav += MovieDetail(it)
+                    }
                     /*Spacer(Modifier.height(50.dp))
                     SearchView(
                         onSearch = {
                             // logic here
                         }
                     )*/
-                    Button(onClick = {
-                        nav += MovieDetail("natra-ma-dong-giang-the")
-                    }) {
-                        Text("Click me!")
-                    }
-                    AnimatedVisibility(showContent) {
-                        Column(
-                            Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Image(
-                                painterResource(Res.drawable.compose_multiplatform),
-                                null
-                            )
-                        }
-                    }
+                    /* Spacer(modifier = Modifier.size(100.dp))
+                     Button(onClick = {
+                         TLog.d("TAG", "Clicked")
+                         showContent = true
+                         nav += MovieDetail("natra-ma-dong-giang-the")
+                     }) {
+                         Text("Click me!")
+                     }*/
                 }
             }
         }

@@ -56,4 +56,19 @@ class WebServiceImpl(
             data.body()
         }
     }
+
+    override suspend fun getHomeData(): Result<ListData, Error> {
+        return handleApiCall {
+            client.get {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BASE_URL
+                    path("home")
+                }
+            }
+        }.map { data ->
+            data.body()
+        }
+    }
+
 }
