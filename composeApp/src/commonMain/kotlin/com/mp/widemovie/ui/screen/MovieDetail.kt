@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,22 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -59,11 +47,11 @@ import com.mp.widemovie.base.BaseScreen
 import com.mp.widemovie.extensions.buildQueryFromParams
 import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.mp.widemovie.ui.components.BaseTopAppBar
-import com.mp.widemovie.ui.components.VideoPlayerScreen
 import com.mp.widemovie.ui.uistate.CastMemberUIState
 import com.mp.widemovie.ui.uistate.ContentUIState
 import com.mp.widemovie.ui.uistate.EpisodeDetailUIState
 import com.mp.widemovie.ui.uistate.EpisodeUIState
+import com.mp.widemovie.viewmodel.DetailScreenState
 import com.mp.widemovie.viewmodel.DetailViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -72,7 +60,7 @@ import widemovie.composeapp.generated.resources.banner_ex
 import widemovie.composeapp.generated.resources.bookmark_add
 import widemovie.composeapp.generated.resources.cast_connected
 import widemovie.composeapp.generated.resources.ic_backspace
-import widemovie.composeapp.generated.resources.ic_download
+import widemovie.composeapp.generated.resources.ic_heart
 import widemovie.composeapp.generated.resources.ic_play_circle
 import widemovie.composeapp.generated.resources.ic_star
 import widemovie.composeapp.generated.resources.share
@@ -90,84 +78,53 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
     override fun Content() = FidoTheme(isDarkTheme = true) {
         val nav = LocalNavigator.currentOrThrow
         val viewModel: DetailViewModel = koinViewModel()
-        val vid by viewModel.testVideo.collectAsState()
         LaunchedEffect(Unit) {
             viewModel.loadMovie(slug.toString())
         }
+        val uiState: DetailScreenState by viewModel.uiState.collectAsState()
+        val selectedServer: EpisodeUIState? by viewModel.selectedServer.collectAsState()
+
         Scaffold(
             modifier = Modifier
                 .background(FidoTheme.colorScheme.onBackground)
                 .fillMaxSize(),
         ) { innerPadding ->
-            val itemInfo: ContentUIState by viewModel.contentUIState.collectAsState()
-            val listActorInfo: List<EpisodeUIState> by viewModel.listEpisodeUIState.collectAsState()
-            val maxImageSize: Dp = 300.dp
-            val minImageSize: Dp = 100.dp
-            var currentImageSize by remember { mutableStateOf(maxImageSize) }
-            var imageScale by remember { mutableFloatStateOf(1f) }
-
-            val nestedScrollConnection = remember {
-                object : NestedScrollConnection {
-                    override fun onPreScroll(
-                        available: Offset,
-                        source: NestedScrollSource,
-                    ): Offset {
-                        // Calculate the change in image size based on scroll delta
-                        val delta = available.y
-                        val newImageSize = currentImageSize + delta.dp
-                        val previousImageSize = currentImageSize
-
-                        // Constrain the image size within the allowed bounds
-                        currentImageSize = newImageSize.coerceIn(minImageSize, maxImageSize)
-                        val consumed = currentImageSize - previousImageSize
-
-                        // Calculate the scale for the image
-                        imageScale = currentImageSize / maxImageSize
-
-                        // Return the consumed scroll amount
-                        return Offset(0f, consumed.value)
-                    }
-                }
-            }
-
-            Box(Modifier.nestedScroll(nestedScrollConnection)) {
+            val scrollScreen = rememberScrollState()
+            Column(modifier = Modifier.verticalScroll(scrollScreen)) {
+                //Banner
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9f),
+                    painter = rememberAsyncImagePainter(uiState.contentUIState.posterUrl),
+                    contentDescription = "Banner",
+                    contentScale = ContentScale.Crop,
+                )
                 BodyContent(
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState())
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp)
-                        .offset {
-                            IntOffset(0, currentImageSize.roundToPx())
+                        .padding(horizontal = 15.dp),
+                    contentUIState = uiState.contentUIState,
+                    listEpisodeUIState = uiState.listEpisodeUIState,
+                    callbacks = BodyContentCallbacks(
+                        onPlayClick = {
+                            val item = viewModel.selectedServer.value?.serverData?.firstOrNull()
+                            if (item?.m3u8Url != null) {
+                                nav += MoviePlayerScreen(slug = "${slug}_${item.slug}", url =  item.m3u8Url, )
+                            } else {
+                                TLog.e(TAG, "item?.m3u8Url null")
+                            }
                         },
-                    contentUIState = itemInfo,
-                    listEpisodeUIState = listActorInfo,
-                    viewModel = viewModel,
+                        onRefresh = {},
+                        onItemClick = {},
+                        onSelectedServer = {
+                            viewModel.selectServer(it)
+                        }),//TODO:
+                    selectedServer = selectedServer,
                 )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                        .align(Alignment.TopCenter)
-                        .graphicsLayer {
-//                            scaleY = imageScale
-//                            // Center the image vertically as it scales
-//                            translationY = -(maxImageSize.toPx() - currentImageSize.toPx()) / 2f
-                        }
-                ) {
-                    Image(
-                        painter = painterResource(Res.drawable.banner_ex),
-                        contentDescription = "Banner",
-                        contentScale = ContentScale.Crop,
-                    )
-
-                    vid.let {
-                        TLog.d(TAG, "random: $it")
-                        VideoPlayerScreen(it.first, it.second)
-                    }
-                }
-
             }
 
+            // TopBar chồng lên trên
             BaseTopAppBar(modifier = Modifier.fillMaxWidth()) {
                 BaseIconButton(src = Res.drawable.ic_backspace, onClick = {
                     nav.popUntilRoot()
@@ -185,13 +142,11 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         modifier: Modifier = Modifier,
         contentUIState: ContentUIState = ContentUIState(),
         listEpisodeUIState: List<EpisodeUIState> = emptyList(),
-        viewModel: DetailViewModel,
+        selectedServer: EpisodeUIState? = null,
+        callbacks: BodyContentCallbacks,
     ) {
-        val selectedServer : EpisodeUIState? by viewModel.selectedServer.collectAsState()
         Column(modifier = modifier) {
-            TitleSection(contentUIState, onPlayClick = {
-                viewModel.loadMovie(slug.toString())
-            })
+            TitleSection(contentUIState, onPlayClick = { callbacks.onPlayClick() })
             Spacer(modifier = Modifier.height(24.dp))
             GenreAndDescription(contentUIState.genres, contentUIState.description)
             Spacer(modifier = Modifier.height(24.dp))
@@ -201,7 +156,7 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
                     modifier = Modifier,
                     episodeUIStates = listEpisodeUIState,
                     onEpisodeClick = {
-                        viewModel.selectServer(it)
+                        callbacks.onSelectedServer(it)
                     })
                 selectedServer?.let {
                     EpisodesSection(
@@ -284,11 +239,11 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
             Spacer(modifier = Modifier.width(8.dp))
             BaseOutlinedButton(
                 modifier = Modifier.weight(0.5f),
-                onClick = { /* TODO: Download */ },
+                onClick = { /* TODO: Favorite */ },
             ) {
-                BaseIcon(src = Res.drawable.ic_download)
+                BaseIcon(src = Res.drawable.ic_heart)
                 BaseText(
-                    "Download",
+                    "Favorite",
                     modifier = Modifier.padding(start = 4.dp),
                     maxLines = 1,
                     style = FidoTheme.typography.h1
@@ -311,7 +266,6 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
             modifier = Modifier.fillMaxWidth()
         ) {
             BaseText("Cast", style = FidoTheme.typography.subtitle1)
-            BaseText("See more", style = FidoTheme.typography.subtitle2)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -470,4 +424,10 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         }
     }
 
+    data class BodyContentCallbacks(
+        val onItemClick: (String) -> Unit,
+        val onRefresh: () -> Unit,
+        val onPlayClick: () -> Unit,
+        val onSelectedServer: (EpisodeUIState) -> Unit,
+    )
 }
