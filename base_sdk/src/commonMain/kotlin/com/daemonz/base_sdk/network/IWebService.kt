@@ -6,4 +6,6 @@ import com.daemonz.base_sdk.utils.Result
 
 interface IWebService {
     suspend fun getMovies(slug: String): Result<ListData, Error>
+
+    suspend fun getHomeData(): Result<ListData, Error>
 }

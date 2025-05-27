@@ -7,4 +7,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SeoOnPage(
     @SerialName("seoSchema") val seoSchema: SeoSchema? = null,
+    val descriptionHead: String?,
+    @SerialName("og_image")
+    val ogImage: List<String>?,
+    @SerialName("og_type")
+    val ogType: String?,
+    val titleHead: String?
 ): NetworkEntity()

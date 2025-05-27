@@ -1,5 +1,9 @@
 package com.daemonz.base_sdk.model
+
 import com.daemonz.base_sdk.base.NetworkEntity
+import com.daemonz.base_sdk.model.Imdb
+import com.daemonz.base_sdk.model.Modified
+import com.daemonz.base_sdk.model.Tmdb
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -26,7 +30,11 @@ data class Item(
     @SerialName("director") val director: List<String> = listOf(),
     @SerialName("episode_total") val episodeTotal: String = "",
     @SerialName("trailer_url") val trailerUrl: String = "",
-    var rating: Double = 0.0
+    @SerialName("imdb") val imdb: Imdb?,
+    @SerialName("modified") val modified: Modified?,
+    @SerialName("sub_docquyen") val subUnique: Boolean?,
+    @SerialName("tmdb") val tmd: Tmdb?,
+    @SerialName("rating") var rating: Double = 0.0
 ) : NetworkEntity() {
     fun getImageUrl(imgDomain: String): String {
         return "$imgDomain/uploads/movies/$thumbUrl"

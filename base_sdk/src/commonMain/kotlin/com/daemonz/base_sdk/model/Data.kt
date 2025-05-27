@@ -11,7 +11,7 @@ data class Data(
     // for detail data
     @SerialName("item") val item: Item? = null,
     @SerialName("APP_DOMAIN_CDN_IMAGE") val imgDomain: String = "",
-    @SerialName("seoOnPage") val seoOnPage: SeoOnPage? = null
+    @SerialName("seoOnPage") val seoOnPage: SeoOnPage? = null,
 ) : NetworkEntity() {
     fun getListUrl(): List<String> = items.map { getImageUrl(it) }
     private fun getImageUrl(item: Item): String {
