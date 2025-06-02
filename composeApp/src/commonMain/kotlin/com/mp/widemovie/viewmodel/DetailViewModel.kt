@@ -52,7 +52,7 @@ class DetailViewModel(
         selectServer(list.firstOrNull())
     }
 
-    fun loadMovie(slug: String) {
+    fun loadMovie(slug: String) = launchOnIO {
         repository.getMovieBySlug(slug, onResultListener = object : OnResultListener<Item?, Error> {
             override fun onSuccess(data: Item?) {
                 currentVideo.value = data
