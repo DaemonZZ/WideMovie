@@ -1,7 +1,5 @@
 package com.mp.widemovie.viewmodel
 
-import com.daemonz.base_sdk.IMG_BASE_URL
-import com.daemonz.base_sdk.model.Data
 import com.daemonz.base_sdk.model.ListData
 import com.daemonz.base_sdk.repo.AppRepository
 import com.daemonz.base_sdk.utils.Error
@@ -38,7 +36,7 @@ class HomeViewModel(
     init {
         getHomeData()
     }
-    fun getHomeData() {
+    fun getHomeData() = launchOnIO {
         repository.getHomeData(onResultListener = object :
             OnResultListener<ListData?, Error> {
             override fun onSuccess(data: ListData?) {
@@ -47,9 +45,7 @@ class HomeViewModel(
             }
 
             override  fun onError(error: Error) {
-                launchOnIO {
-                    errorMessage.emit(error.toString())
-                }
+                    errorMessage.value = error.toString()
                 TLog.d(TAG, "error: $error")
             }
         }

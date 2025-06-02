@@ -10,32 +10,27 @@ import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.OnResultListener
 import com.daemonz.base_sdk.utils.onError
 import com.daemonz.base_sdk.utils.onSuccess
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class AppRepository(): BaseRepository() {
-    companion object{
+class AppRepository() : BaseRepository() {
+    companion object {
         private const val TAG = "AppRepository"
     }
+
     private val mWebService: IWebService = WebServiceImpl(createKtorClient())
-    fun getMovieBySlug(slug: String, onResultListener: OnResultListener<Item?, Error>) {
-        CoroutineScope(Dispatchers.Default).launch {
-            mWebService.getMovies(slug).onSuccess { list ->
-                onResultListener.onSuccess(list.data.item)
-            }.onError { e ->
-                onResultListener.onError(e)
-            }
+    suspend fun getMovieBySlug(slug: String, onResultListener: OnResultListener<Item?, Error>) {
+        mWebService.getMovies(slug).onSuccess { list ->
+            onResultListener.onSuccess(list.data.item)
+        }.onError { e ->
+            onResultListener.onError(e)
         }
+
     }
 
-     fun getHomeData(onResultListener: OnResultListener<ListData?, Error>) {
-        CoroutineScope(Dispatchers.Default).launch {
-            mWebService.getHomeData().onSuccess { response ->
-                onResultListener.onSuccess(response)
-            }.onError { e ->
-                onResultListener.onError(e)
-            }
+    suspend fun getHomeData(onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getHomeData().onSuccess { response ->
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
         }
     }
 }
