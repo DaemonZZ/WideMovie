@@ -6,7 +6,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ListData(
-    @SerialName("data") val data: Data,
+    @SerialName("data") val data: Data? = null,
     @SerialName("status") val status: String = "",
     @SerialName("message") val message: String = ""
-) : NetworkEntity()
+) : NetworkEntity(){
+    fun getFilmCategories(): Map<String, String>? {
+        return data?.items?.associate {
+            it.name to it.slug
+        }
+    }
+}

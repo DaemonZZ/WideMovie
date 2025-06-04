@@ -30,10 +30,10 @@ data class Item(
     @SerialName("director") val director: List<String> = listOf(),
     @SerialName("episode_total") val episodeTotal: String = "",
     @SerialName("trailer_url") val trailerUrl: String = "",
-    @SerialName("imdb") val imdb: Imdb?,
-    @SerialName("modified") val modified: Modified?,
-    @SerialName("sub_docquyen") val subUnique: Boolean?,
-    @SerialName("tmdb") val tmd: Tmdb?,
+    @SerialName("imdb") val imdb: Imdb? = null,
+    @SerialName("modified") val modified: Modified?= null,
+    @SerialName("sub_docquyen") val subUnique: Boolean?= null,
+    @SerialName("tmdb") val tmd: Tmdb?= null,
     @SerialName("rating") var rating: Double = 0.0
 ) : NetworkEntity() {
     fun getImageUrl(imgDomain: String): String {

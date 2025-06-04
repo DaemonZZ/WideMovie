@@ -42,4 +42,6 @@
     <string name="category_title">Category</string>
     <string name="phim_all">All</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="incomming_movies">Incomming movies</string>
+    <string name="movies_by_types">Movies by types</string>
 </resources>

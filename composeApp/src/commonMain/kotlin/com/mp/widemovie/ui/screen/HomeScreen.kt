@@ -36,6 +36,7 @@ import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.CurrentUIType
 import com.mp.widemovie.UIType
 import com.mp.widemovie.base.BaseScreen
+import com.mp.widemovie.getScreenSize
 import com.mp.widemovie.viewmodel.HomeViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -59,36 +60,20 @@ class HomeScreen : BaseScreen() {
                 drawerBackgroundColor = Color.Transparent,
                 drawerElevation = 0.dp,
                 drawerContent = { if (categoryUI == UIType.Web) WebNavigatorDrawer() },
-                drawerGesturesEnabled = (categoryUI == UIType.Web)
+                drawerGesturesEnabled = (categoryUI == UIType.Web),
             ) {
+                 TLog.d("ScreenSize", getScreenSize().toString())
                 Column(
                     Modifier.fillMaxWidth().background(FidoPaletteTokens.Secondary10),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Header(Modifier.fillMaxWidth().weight(1f), viewModel) {
-                        nav += MovieDetail(it)
-                    }
+
                     Body(Modifier.fillMaxWidth().weight(1f), viewModel) {
                         nav += MovieDetail(it)
-
                     }
-                    Footer(Modifier.fillMaxWidth().weight(1.3f), viewModel) {
+                    Footer(Modifier.fillMaxWidth().weight(1.5f), viewModel) {
                         nav += MovieDetail(it)
                     }
-                    /*Spacer(Modifier.height(50.dp))
-                    SearchView(
-                        onSearch = {
-                            // logic here
-                        }
-                    )*/
-                    /* Spacer(modifier = Modifier.size(100.dp))
-                     Button(onClick = {
-                         TLog.d("TAG", "Clicked")
-                         showContent = true
-                         nav += MovieDetail("natra-ma-dong-giang-the")
-                     }) {
-                         Text("Click me!")
-                     }*/
                 }
             }
         }
