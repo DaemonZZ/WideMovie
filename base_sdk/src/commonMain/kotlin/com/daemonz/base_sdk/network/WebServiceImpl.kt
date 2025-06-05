@@ -4,6 +4,7 @@ import com.daemonz.base_sdk.BASE_URL
 import com.daemonz.base_sdk.model.ListData
 import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.NetworkError
+import com.daemonz.base_sdk.utils.PATHS
 import com.daemonz.base_sdk.utils.Result
 import com.daemonz.base_sdk.utils.map
 import io.ktor.client.HttpClient
@@ -63,7 +64,7 @@ class WebServiceImpl(
                 url {
                     protocol = URLProtocol.HTTPS
                     host = BASE_URL
-                    path("home")
+                    path(PATHS.HOME.id)
                 }
             }
         }.map { data ->
@@ -71,4 +72,17 @@ class WebServiceImpl(
         }
     }
 
+    override suspend fun getDataByPath(path: String): Result<ListData, Error> {
+        return handleApiCall {
+            client.get {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = BASE_URL
+                    path(path)
+                }
+            }
+        }.map { data ->
+            data.body()
+        }
+    }
 }
