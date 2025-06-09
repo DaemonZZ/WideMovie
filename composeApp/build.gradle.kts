@@ -75,8 +75,6 @@ kotlin {
             implementation(libs.androidx.core.ktx)
         }
         commonMain.dependencies {
-            implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha09") // Check for the latest Coil 3 version
-            implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-alpha09")
             api("io.github.qdsfdhvh:image-loader:1.10.0")
             implementation(compose.runtime)
             implementation(compose.foundation)

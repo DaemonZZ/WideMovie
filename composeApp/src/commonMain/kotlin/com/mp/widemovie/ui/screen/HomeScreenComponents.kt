@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -38,11 +37,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.rememberAsyncImagePainter
 import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.components.text.BaseText
 import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
+import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.mp.widemovie.getScreenSize
 import com.mp.widemovie.utils.makeURLRequestImage
 import com.mp.widemovie.viewmodel.HomeViewModel
@@ -99,7 +98,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
                         }
                     ) {
                         val ratio = 1 / 2.5
-                        val height = getScreenSize().second * ratio * 0.7
+                        val height = getScreenSize().second * ratio * 0.6
                         val width = height * 2 / 3
                         Image(
                             modifier = Modifier.size(width.dp, height.dp),
@@ -145,11 +144,11 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
 
     TLog.d(TAG, "selectedCategory: $selectedCategory")
     Column(
-        modifier = modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp),
+        modifier = modifier.padding(start = 20.dp, end = 20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier.weight(0.1f),
             verticalArrangement = Arrangement.Bottom
         ) {
             BaseText(
@@ -162,7 +161,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
         if (!nameCategories.isNullOrEmpty()) {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.wrapContentSize(),
+                modifier = Modifier.weight(0.1f),
                 verticalAlignment = Alignment.Bottom
             ) {
                 items(nameCategories) { category ->
@@ -203,7 +202,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
                             }
                         ) {
                             val ratio = 1.5 / 2.5
-                            val height = getScreenSize().second * ratio * 0.6
+                            val height = getScreenSize().second * ratio * 0.5
                             val width = height * 2 / 3
                             Image(
                                 modifier = Modifier.size(width.dp, height.dp),
@@ -271,4 +270,3 @@ fun rememberSnappingFlingBehavior(
         }
     }
 }
-
