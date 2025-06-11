@@ -22,6 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
 import org.jetbrains.compose.resources.DrawableResource
@@ -39,10 +42,10 @@ fun AndroidBottomBar() {
     var focusState by remember { mutableIntStateOf(0) }
     val bottomBarIcons = arrayOf(
         Res.drawable.ic_home,
-        Res.drawable.ic_download,
+//        Res.drawable.ic_download,
         Res.drawable.ic_search_2,
         Res.drawable.ic_file,
-        Res.drawable.ic_user
+//        Res.drawable.ic_user
     )
     Row(
         modifier = Modifier
@@ -50,6 +53,7 @@ fun AndroidBottomBar() {
             .background(FidoTheme.colorScheme.onBackground)
     ) {
         bottomBarIcons.forEachIndexed { index, drawableResource ->
+            bottomBarNavigation(BottomBarValues.values().getOrNull(index))
             // Custom button here
             val modifier = Modifier
                 .weight(1f)
@@ -63,22 +67,26 @@ fun AndroidBottomBar() {
 }
 
 @Composable
+fun bottomBarNavigation(value: BottomBarValues?){
+    val nav = LocalNavigator.currentOrThrow
+    TLog.d("bottomBarNavigation", "value: $value")
+    when(value){
+        BottomBarValues.Home -> nav.replace(HomeScreen())
+        else -> {}
+    }
+}
+
+
+@Composable
 fun WebNavigatorDrawer() {
     var focusState by remember { mutableIntStateOf(0) }
+    // TODO develop later
     val bottomBarIcons = arrayOf(
         Res.drawable.ic_home,
-        Res.drawable.ic_download,
+//        Res.drawable.ic_download,
         Res.drawable.ic_search_2,
         Res.drawable.ic_file,
-        Res.drawable.ic_user
-    )
-
-    val title = arrayOf(
-        "Home",
-        "Download",
-        "Search",
-        "Files",
-        "Profile"
+//        Res.drawable.ic_user
     )
 
     Column(
@@ -89,6 +97,7 @@ fun WebNavigatorDrawer() {
     ) {
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
         bottomBarIcons.forEachIndexed { index, drawableResource ->
+            bottomBarNavigation(BottomBarValues.values().getOrNull(index))
             // Custom button here
             val modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
@@ -102,7 +111,7 @@ fun WebNavigatorDrawer() {
                     focusState = index
                 }
                 Spacer(modifier = Modifier.fillMaxWidth(0.05f))
-                Text(text = title[index])
+                Text(text = BottomBarValues.values().getOrNull(index).toString())
             }
 
         }
@@ -129,4 +138,13 @@ private fun BaseButtonBottomBar(
             tint = Color.White,
         )
     }
+}
+
+
+enum class BottomBarValues(name: String){
+    Home("Home"),
+//    Download("Download"),
+    Search("Search"),
+    Files("Files"),
+//    Profile("Profile")
 }

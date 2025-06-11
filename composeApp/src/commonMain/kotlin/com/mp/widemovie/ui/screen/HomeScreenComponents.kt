@@ -46,6 +46,8 @@ import com.mp.widemovie.getScreenSize
 import com.mp.widemovie.utils.makeURLRequestImage
 import com.mp.widemovie.viewmodel.HomeViewModel
 import com.mp.widemovie.viewmodel.TAG
+import com.seiko.imageloader.model.ImageRequest
+import io.ktor.http.headers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -88,8 +90,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
         ) {
             items(movieList) { movie ->
                 with(movie) {
-                    val painter =
-                        rememberAsyncImagePainter(makeURLRequestImage(thumbUrl.toString()))
+                    val painter = rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString()))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
@@ -99,12 +100,12 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
                     ) {
                         val ratio = 1 / 2.5
                         val height = getScreenSize().second * ratio * 0.6
-                        val width = height * 2 / 3
+                        val width = height * 3 / 4
                         Image(
                             modifier = Modifier.size(width.dp, height.dp),
                             painter = painter,
                             contentDescription = "image",
-                            contentScale = ContentScale.FillBounds
+                            contentScale = ContentScale.Crop
                         )
                         Text(
                             name.toString(),
@@ -193,7 +194,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
                 items(movieList) { movie ->
                     with(movie) {
                         val painter =
-                            rememberAsyncImagePainter(makeURLRequestImage(thumbUrl.toString()))
+                            rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString()))
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween,
@@ -203,12 +204,12 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
                         ) {
                             val ratio = 1.5 / 2.5
                             val height = getScreenSize().second * ratio * 0.5
-                            val width = height * 2 / 3
+                            val width = height * 3 / 4
                             Image(
                                 modifier = Modifier.size(width.dp, height.dp),
                                 painter = painter,
                                 contentDescription = "image",
-                                contentScale = ContentScale.FillBounds
+                                contentScale = ContentScale.Crop
                             )
                             Text(
                                 name.toString(),
