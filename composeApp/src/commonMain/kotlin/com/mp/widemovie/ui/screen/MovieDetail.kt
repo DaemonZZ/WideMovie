@@ -56,7 +56,6 @@ import com.mp.widemovie.viewmodel.DetailViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import widemovie.composeapp.generated.resources.Res
-import widemovie.composeapp.generated.resources.banner_ex
 import widemovie.composeapp.generated.resources.bookmark_add
 import widemovie.composeapp.generated.resources.cast_connected
 import widemovie.composeapp.generated.resources.ic_backspace

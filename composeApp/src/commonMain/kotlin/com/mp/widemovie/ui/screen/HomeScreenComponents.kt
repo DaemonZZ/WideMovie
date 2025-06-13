@@ -46,12 +46,12 @@ import com.mp.widemovie.getScreenSize
 import com.mp.widemovie.utils.makeURLRequestImage
 import com.mp.widemovie.viewmodel.HomeViewModel
 import com.mp.widemovie.viewmodel.TAG
-import com.seiko.imageloader.model.ImageRequest
-import io.ktor.http.headers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import widemovie.composeapp.generated.resources.Res
+import widemovie.composeapp.generated.resources.img_place_holder
 import widemovie.composeapp.generated.resources.incomming_movies
 import widemovie.composeapp.generated.resources.movies_by_types
 import kotlin.math.roundToInt
@@ -90,7 +90,10 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
         ) {
             items(movieList) { movie ->
                 with(movie) {
-                    val painter = rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString()))
+                    val painter =
+                        rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString())) {
+                            painterResource(Res.drawable.img_place_holder)
+                        }
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
@@ -194,7 +197,9 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
                 items(movieList) { movie ->
                     with(movie) {
                         val painter =
-                            rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString()))
+                            rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString())) {
+                                painterResource(Res.drawable.img_place_holder)
+                            }
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.SpaceBetween,
