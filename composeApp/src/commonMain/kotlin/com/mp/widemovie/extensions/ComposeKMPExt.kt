@@ -5,4 +5,4 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.seiko.imageloader.rememberImagePainter
 
 @Composable
-fun rememberAsyncImagePainter(imageUrl: String): Painter = rememberImagePainter(imageUrl)
+fun rememberAsyncImagePainter(imageUrl: String, placeHolder: (@Composable () -> Painter)? = null): Painter = rememberImagePainter(url = imageUrl, placeholderPainter = placeHolder)
