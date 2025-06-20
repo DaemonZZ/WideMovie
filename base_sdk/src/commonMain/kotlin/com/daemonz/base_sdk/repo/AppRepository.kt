@@ -52,4 +52,12 @@ class AppRepository() : BaseRepository() {
                 onResultListener.onError(e)
             }
     }
+
+    suspend fun searchMovieByName(path: String, onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getMovieByName(path).onSuccess { response ->
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
+        }
+    }
 }

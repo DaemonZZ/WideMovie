@@ -1,6 +1,7 @@
 package com.daemonz.base_sdk.network
 
 import com.daemonz.base_sdk.BASE_URL
+import com.daemonz.base_sdk.SEARCH_URL
 import com.daemonz.base_sdk.model.ListData
 import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.NetworkError
@@ -12,8 +13,12 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders.ContentType
 import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 import io.ktor.http.path
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.io.IOException
@@ -78,7 +83,22 @@ class WebServiceImpl(
                 url {
                     protocol = URLProtocol.HTTPS
                     host = BASE_URL
-                    path(path)
+                    path(path.replace("?", ""))
+                }
+            }
+        }.map { data ->
+            data.body()
+        }
+    }
+
+    // TODO must combine to getDataByPath
+    override suspend fun getMovieByName(name: String): Result<ListData, Error> {
+        return handleApiCall {
+            client.get {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = SEARCH_URL
+                    path(name)
                 }
             }
         }.map { data ->
