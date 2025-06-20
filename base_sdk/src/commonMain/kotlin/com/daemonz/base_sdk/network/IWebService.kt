@@ -10,4 +10,6 @@ interface IWebService {
     suspend fun getHomeData(): Result<ListData, Error>
 
     suspend fun getDataByPath(path: String): Result<ListData, Error>
+
+    suspend fun getMovieByName(path: String): Result<ListData, Error>
 }

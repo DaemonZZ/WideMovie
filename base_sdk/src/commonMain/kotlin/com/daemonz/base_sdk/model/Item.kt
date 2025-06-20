@@ -1,9 +1,6 @@
 package com.daemonz.base_sdk.model
 
 import com.daemonz.base_sdk.base.NetworkEntity
-import com.daemonz.base_sdk.model.Imdb
-import com.daemonz.base_sdk.model.Modified
-import com.daemonz.base_sdk.model.Tmdb
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

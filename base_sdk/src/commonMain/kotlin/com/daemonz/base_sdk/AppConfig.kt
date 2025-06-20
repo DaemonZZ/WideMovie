@@ -1,5 +1,6 @@
 package com.daemonz.base_sdk
 
 const val BASE_URL = "ophim1.com/v1/api"
+const val SEARCH_URL = BASE_URL + "/tim-kiem?keyword="
 const val IMG_BASE_URL = "http://img.ophim1.com"
 const val TAG = "WM#"
