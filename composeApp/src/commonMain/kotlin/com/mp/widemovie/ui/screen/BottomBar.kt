@@ -13,6 +13,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -24,22 +25,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
+import com.mp.widemovie.ui.screen.home.HomeScreen
+import com.mp.widemovie.ui.screen.search.SearchMovie
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import widemovie.composeapp.generated.resources.Res
-import widemovie.composeapp.generated.resources.ic_download
 import widemovie.composeapp.generated.resources.ic_file
 import widemovie.composeapp.generated.resources.ic_home
 import widemovie.composeapp.generated.resources.ic_search_2
-import widemovie.composeapp.generated.resources.ic_user
 
 
+//TODO refactor index later
 @Composable
-fun AndroidBottomBar() {
-    var focusState by remember { mutableIntStateOf(0) }
+fun AndroidBottomBar(index: Int) {
+    var focusState by remember { mutableIntStateOf(index)}
     val bottomBarIcons = arrayOf(
         Res.drawable.ic_home,
 //        Res.drawable.ic_download,
@@ -53,7 +54,6 @@ fun AndroidBottomBar() {
             .background(FidoTheme.colorScheme.onBackground)
     ) {
         bottomBarIcons.forEachIndexed { index, drawableResource ->
-            bottomBarNavigation(BottomBarValues.values().getOrNull(index))
             // Custom button here
             val modifier = Modifier
                 .weight(1f)
@@ -64,14 +64,24 @@ fun AndroidBottomBar() {
             }
         }
     }
+    BottomBarNavigation(BottomBarValues.entries.getOrNull(focusState))
 }
 
 @Composable
-fun bottomBarNavigation(value: BottomBarValues?){
+fun BottomBarNavigation(value: BottomBarValues?){
     val nav = LocalNavigator.currentOrThrow
-    TLog.d("bottomBarNavigation", "value: $value")
+    val currentScreen = nav.lastItem
     when(value){
-        BottomBarValues.Home -> nav.replace(HomeScreen())
+        BottomBarValues.Home -> {
+            if(currentScreen != HomeScreen()){
+                nav.push(HomeScreen())
+            }
+        }
+        BottomBarValues.Search -> {
+            if(currentScreen != SearchMovie()){
+                nav.push(SearchMovie())
+            }
+        }
         else -> {}
     }
 }
@@ -97,7 +107,6 @@ fun WebNavigatorDrawer() {
     ) {
         Spacer(modifier = Modifier.fillMaxHeight(0.05f))
         bottomBarIcons.forEachIndexed { index, drawableResource ->
-            bottomBarNavigation(BottomBarValues.values().getOrNull(index))
             // Custom button here
             val modifier = Modifier
                 .clip(RoundedCornerShape(16.dp))
@@ -116,6 +125,7 @@ fun WebNavigatorDrawer() {
 
         }
     }
+    BottomBarNavigation(BottomBarValues.entries.getOrNull(focusState))
 }
 
 

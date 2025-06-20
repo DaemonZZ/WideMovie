@@ -84,7 +84,7 @@ class HomeViewModel(
 
     fun getMoviesByType(type: String) =
         launchOnIO {
-            repository.getDataByPath(
+            repository.searchMovies(
                 path = "${PATHS.CATERGORY.id}/$type",
                 onResultListener = object :
                     OnResultListener<ListData?, Error> {
@@ -104,7 +104,7 @@ class HomeViewModel(
 
     fun getIncommingFilm() =
         launchOnIO {
-            repository.getDataByPath(
+            repository.searchMovies(
                 path = "${PATHS.LIST.id}/${PATHS.INCOMMING.id}",
                 onResultListener = object :
                     OnResultListener<ListData?, Error> {
