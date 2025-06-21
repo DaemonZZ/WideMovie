@@ -48,5 +48,6 @@ fun Item.toContentUIState(): ContentUIState {
         description = content.replace(Regex("<.*?>"), ""),
         cast = listCast,
         posterUrl = "${IMG_BASE_URL}/uploads/movies/$posterUrl",
+        time = time,
     )
 }

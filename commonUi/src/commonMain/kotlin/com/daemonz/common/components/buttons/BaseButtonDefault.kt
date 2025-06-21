@@ -25,4 +25,16 @@ object BaseButtonDefault {
         disabledBackgroundColor = backgroundColor,
         disabledContentColor = disabledContentColor
     )
+
+    @Composable
+    fun buttonPrimaryColors(
+        backgroundColor: Color = FidoTheme.colorScheme.Primary,
+        contentColor: Color = FidoTheme.colorScheme.Primary,
+        disabledContentColor: Color = FidoTheme.colorScheme.Neutral_TextColorsDisabled,
+    ): ButtonColors = BaseButtonColors(
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        disabledBackgroundColor = backgroundColor,
+        disabledContentColor = disabledContentColor
+    )
 }

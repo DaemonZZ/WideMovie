@@ -14,9 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,7 +38,7 @@ import com.mp.widemovie.ui.DemoData.sampleMovies
 fun MovieTabScreen(
     modifier: Modifier = Modifier,
 ) {
-    val tabs = listOf("Trailers", "More like This", "Comments")
+    val tabs = listOf("Có thể bạn muốn xem", "Bình luận")
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     Column(modifier = modifier) {
@@ -64,15 +63,14 @@ fun MovieTabScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         // Grid of movies
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        LazyRow(
             modifier = Modifier
                 .heightIn(0.dp, max = 500.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             itemsIndexed(sampleMovies) { index, movie ->
-                MovieCard(movie)
+                MovieCard(movie, modifier = Modifier.height(200.dp))
             }
         }
     }
@@ -81,51 +79,46 @@ fun MovieTabScreen(
 data class Movie(val title: String, val imageRes: String, val rating: String)
 
 @Composable
-fun MovieCard(movie: Movie) {
-    Box(
-        modifier = Modifier
-    ) {
-        Column {
-            // Poster
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.DarkGray)
-            ) {
-                // Replace with real image loading
-                Image(
-                    painter = rememberAsyncImagePainter(movie.imageRes), // Add to resources
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).fillMaxSize()
-                )
-
-                // Rating badge
-                Row(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.BottomEnd),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    BaseText(
-                        modifier = Modifier
-                            .background(Color.Red, shape = RoundedCornerShape(8.dp))
-                            .padding(horizontal = 6.dp, vertical = 2.dp),
-                        text = movie.rating,
-                        style = FidoTheme.typography.subtitle1,
-                    )
-                }
-            }
-
-            // Title
-            BaseText(
-                text = movie.title,
-                style = FidoTheme.typography.subtitle1,
-                modifier = Modifier.padding(start = 4.dp)
+fun MovieCard(movie: Movie, modifier: Modifier = Modifier) {
+    Column {
+        // Poster
+        Box(
+            modifier = modifier
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color.DarkGray)
+        ) {
+            // Replace with real image loading
+            Image(
+                painter = rememberAsyncImagePainter(movie.imageRes), // Add to resources
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.clip(RoundedCornerShape(12.dp)).fillMaxSize()
             )
+
+            // Rating badge
+            Row(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.BottomEnd),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                BaseText(
+                    modifier = Modifier
+                        .background(Color.Red, shape = RoundedCornerShape(8.dp))
+                        .padding(horizontal = 6.dp, vertical = 2.dp),
+                    text = movie.rating,
+                    style = FidoTheme.typography.subtitle1,
+                )
+            }
         }
+
+        // Title
+        BaseText(
+            text = movie.title,
+            style = FidoTheme.typography.subtitle1,
+            modifier = Modifier.padding(start = 4.dp)
+        )
     }
 }

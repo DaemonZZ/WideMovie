@@ -18,5 +18,6 @@ data class ContentUIState(
     val description: String = "",
     val posterUrl: String = "",
     val cast: List<CastMemberUIState> = emptyList(),
+    val time: String = "",
 )
 
