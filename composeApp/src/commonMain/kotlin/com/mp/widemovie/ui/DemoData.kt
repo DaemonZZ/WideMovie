@@ -17,7 +17,7 @@ object DemoData {
     //Only For test
     val sampleContent = ContentUIState(
         title = "The Amazing Spider Man",
-        rating = 9.8,
+        rating = 9.8f,
         releaseYear = 2022,
         ageRating = "13+",
         country = "United States",

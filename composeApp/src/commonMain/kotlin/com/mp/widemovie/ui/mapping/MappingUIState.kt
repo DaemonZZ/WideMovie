@@ -7,19 +7,20 @@ import com.mp.widemovie.ui.uistate.CastMemberUIState
 import com.mp.widemovie.ui.uistate.ContentUIState
 import com.mp.widemovie.ui.uistate.EpisodeDetailUIState
 import com.mp.widemovie.ui.uistate.EpisodeUIState
+import com.mp.widemovie.ui.uistate.MovieCardUIState
 
 fun Episode.toEpisodeUIState(): EpisodeUIState {
     return EpisodeUIState(
         serverName = serverName,
         serverData = serverData.map {
-        EpisodeDetailUIState(
-            slug = it.slug,
-            title = it.name,
-            thumbnailUrl = it.filename,
-            m3u8Url = it.m3u8,
-            url = it.url
-        )
-    })
+            EpisodeDetailUIState(
+                slug = it.slug,
+                title = it.name,
+                thumbnailUrl = it.filename,
+                m3u8Url = it.m3u8,
+                url = it.url
+            )
+        })
 }
 
 fun Item.toContentUIState(): ContentUIState {
@@ -37,7 +38,7 @@ fun Item.toContentUIState(): ContentUIState {
     val listGenres = category.map { it.name }
     return ContentUIState(
         title = name,
-        rating = rating,
+        rating = imdb?.voteAverage ?: 0.0f,
         releaseYear = year.toInt(),
         ageRating = "13+",
         country = country.firstOrNull()?.name ?: "Unknow",
@@ -48,5 +49,19 @@ fun Item.toContentUIState(): ContentUIState {
         description = content.replace(Regex("<.*?>"), ""),
         cast = listCast,
         posterUrl = "${IMG_BASE_URL}/uploads/movies/$posterUrl",
+        time = time,
+        lang = language,
+        status = episodeCurrent,
+        quality = quality,
+    )
+}
+
+fun Item.toMovieCardUIState(): MovieCardUIState {
+    return MovieCardUIState(
+        title = name,
+        posterUrl = "${IMG_BASE_URL}/uploads/movies/$posterUrl",
+        time = time,
+        slug = slug,
+        status = episodeCurrent,
     )
 }
