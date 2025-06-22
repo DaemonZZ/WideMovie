@@ -37,15 +37,15 @@ class AppRepository() : BaseRepository() {
     }
 
     suspend fun getAllCatergories(onResultListener: OnResultListener<ListData?, Error>) {
-            mWebService.getDataByPath(PATHS.CATERGORY.id).onSuccess { response ->
+            mWebService.getMovieLists(PATHS.CATERGORY.id).onSuccess { response ->
                 onResultListener.onSuccess(response)
             }.onError { e ->
                 onResultListener.onError(e)
             }
     }
 
-    suspend fun getDataByPath(path: String, onResultListener: OnResultListener<ListData?, Error>) {
-            mWebService.getDataByPath(path).onSuccess { response ->
+    suspend fun searchMovies(path: String, query: Map<String, String> = emptyMap<String, String>(), onResultListener: OnResultListener<ListData?, Error>) {
+            mWebService.getMovieLists(path, query).onSuccess { response ->
                 TLog.d("getDataByPath", "path: $path\nonSuccess: $response")
                 onResultListener.onSuccess(response)
             }.onError { e ->

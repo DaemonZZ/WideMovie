@@ -6,6 +6,7 @@ import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.NetworkError
 import com.daemonz.base_sdk.utils.PATHS
 import com.daemonz.base_sdk.utils.Result
+import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.base_sdk.utils.map
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -72,13 +73,17 @@ class WebServiceImpl(
         }
     }
 
-    override suspend fun getDataByPath(path: String): Result<ListData, Error> {
+    override suspend fun getMovieLists(path: String, query: Map<String, String>): Result<ListData, Error> {
+        TLog.d(TAG, "getMovieLists path: $BASE_URL/$path$query")
         return handleApiCall {
             client.get {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = BASE_URL
                     path(path)
+                    query.entries.forEach { entry ->
+                        parameters.append(entry.key, entry.value)
+                    }
                 }
             }
         }.map { data ->

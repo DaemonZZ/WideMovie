@@ -9,5 +9,5 @@ interface IWebService {
 
     suspend fun getHomeData(): Result<ListData, Error>
 
-    suspend fun getDataByPath(path: String): Result<ListData, Error>
+    suspend fun getMovieLists(path: String, query: Map<String, String> = emptyMap<String, String>()): Result<ListData, Error>
 }

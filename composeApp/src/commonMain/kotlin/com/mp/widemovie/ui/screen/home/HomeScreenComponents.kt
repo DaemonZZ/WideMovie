@@ -1,4 +1,4 @@
-package com.mp.widemovie.ui.screen
+package com.mp.widemovie.ui.screen.home
 
 import androidx.compose.animation.core.calculateTargetValue
 import androidx.compose.animation.rememberSplineBasedDecay
