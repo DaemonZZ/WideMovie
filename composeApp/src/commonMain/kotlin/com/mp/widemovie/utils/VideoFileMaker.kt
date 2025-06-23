@@ -55,9 +55,7 @@ class VideoFileMaker(
             for (i in contentLines.indices) {
                 if (contentLines[i].contains(".ts") && skip == 0) {
                     count++
-                } else if (contentLines[i].contains("DISCONTINUITY") && contentLines[i + 1].contains(
-                        "EXTINF:2.000000"
-                    ) && skip == 0
+                } else if (contentLines[i].contains("DISCONTINUITY") && skip == 0
                 ) {
                     if (count <= 600 && EXPECTED_ABNORMAL.contains(count) || count > 600) {
                         TLog.d(TAG, "====================== DETECT ABNORMAL =====================")
@@ -71,7 +69,6 @@ class VideoFileMaker(
                 if (skip == 0) {
                     if (contentLines[i].contains(".ts")) {
                         val fullTsLink = referer + contentLines[i]
-                        TLog.d(TAG, "fullTsLink: $fullTsLink")
                         result.add(fullTsLink)
                     } else {
                         result.add(contentLines[i])
