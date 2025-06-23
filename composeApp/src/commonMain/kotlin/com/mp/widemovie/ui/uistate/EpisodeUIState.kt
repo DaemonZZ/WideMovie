@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 data class EpisodeUIState(
     val serverName: String = "",
     val serverData: List<EpisodeDetailUIState> = listOf(),
+    val selectedEpisode :EpisodeDetailUIState? = serverData.firstOrNull(),
 )
 
 @Stable

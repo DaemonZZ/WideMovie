@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 @Stable
 data class ContentUIState(
     val title: String = "",
-    val rating: Double = 0.0,
+    val rating: Float = 0.0f,
     val releaseYear: Int = 0,
     val ageRating: String = "",
     val country: String = "",
@@ -18,5 +18,9 @@ data class ContentUIState(
     val description: String = "",
     val posterUrl: String = "",
     val cast: List<CastMemberUIState> = emptyList(),
+    val time: String = "",
+    val lang: String = "",
+    val status: String = "",
+    val quality: String = "",
 )
 
