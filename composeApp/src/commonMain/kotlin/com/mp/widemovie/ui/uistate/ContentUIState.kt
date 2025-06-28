@@ -22,5 +22,6 @@ data class ContentUIState(
     val lang: String = "",
     val status: String = "",
     val quality: String = "",
+    val trailerUrl: String? = null,
 )
 

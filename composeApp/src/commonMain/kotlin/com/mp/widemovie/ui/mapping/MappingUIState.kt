@@ -12,7 +12,7 @@ import com.mp.widemovie.ui.uistate.MovieCardUIState
 fun Episode.toEpisodeUIState(): EpisodeUIState {
     return EpisodeUIState(
         serverName = serverName,
-        serverData = serverData.map {
+        serverData = serverData.filter { it.m3u8.isNotEmpty() }.map {
             EpisodeDetailUIState(
                 slug = it.slug,
                 title = it.name,
@@ -53,6 +53,7 @@ fun Item.toContentUIState(): ContentUIState {
         lang = language,
         status = episodeCurrent,
         quality = quality,
+        trailerUrl = trailerUrl,
     )
 }
 
