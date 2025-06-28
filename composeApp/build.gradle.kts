@@ -12,6 +12,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     // Need change firebase config
 //    id("com.google.firebase.crashlytics")
 //    id("com.google.gms.google-services")
@@ -72,6 +74,8 @@ kotlin {
             implementation("androidx.media3:media3-exoplayer:1.3.1")
             implementation("androidx.media3:media3-ui:1.3.1")
             implementation(libs.androidx.core.ktx)
+            implementation("com.google.firebase:firebase-analytics")
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
