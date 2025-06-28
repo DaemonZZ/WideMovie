@@ -76,6 +76,7 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation("com.google.firebase:firebase-analytics")
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
+            implementation(libs.androidx.ui.android)
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")

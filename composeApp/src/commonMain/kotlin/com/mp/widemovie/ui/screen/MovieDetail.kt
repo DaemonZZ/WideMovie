@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,12 +19,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -32,10 +38,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.components.buttons.BaseButtonWithIcon
+import com.daemonz.common.components.buttons.BaseIcon
 import com.daemonz.common.components.buttons.BaseIconButton
 import com.daemonz.common.components.buttons.BaseOutlinedButton
 import com.daemonz.common.components.text.BaseText
@@ -45,6 +53,7 @@ import com.mp.widemovie.extensions.buildQueryFromParams
 import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.mp.widemovie.ui.components.BaseTopAppBar
 import com.mp.widemovie.ui.components.PaginatedEpisodeGridWithPageNumbers
+import com.mp.widemovie.ui.components.YouTubeWebViewPlayer
 import com.mp.widemovie.ui.uistate.CastMemberUIState
 import com.mp.widemovie.ui.uistate.ContentUIState
 import com.mp.widemovie.ui.uistate.EpisodeDetailUIState
@@ -58,6 +67,7 @@ import widemovie.composeapp.generated.resources.Res
 import widemovie.composeapp.generated.resources.bookmark_add
 import widemovie.composeapp.generated.resources.cast_connected
 import widemovie.composeapp.generated.resources.ic_backspace
+import widemovie.composeapp.generated.resources.ic_play
 import widemovie.composeapp.generated.resources.ic_play_circle
 import widemovie.composeapp.generated.resources.ic_star
 import widemovie.composeapp.generated.resources.share
@@ -178,8 +188,36 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
         selectedServer: EpisodeUIState? = null,
         callbacks: BodyContentCallbacks,
     ) {
+        var showDialog by remember { mutableStateOf(false) }
+
         Column(modifier = modifier) {
-            TitleSection(contentUIState, onPlayClick = { callbacks.onPlayClick() })
+            TitleSection(contentUIState)
+            Spacer(modifier = Modifier.height(13.dp))
+            Row(modifier = Modifier.height(50.dp)) {
+                if (contentUIState.trailerUrl != null) {
+                    BaseOutlinedButton(
+                        modifier = Modifier.fillMaxHeight(),
+                        onClick = { showDialog= true },
+                    ) {
+                        BaseIcon(src = Res.drawable.ic_play)
+                        BaseText(
+                            "Trailer",
+                            modifier = Modifier.padding(start = 4.dp),
+                            maxLines = 1,
+                            style = FidoTheme.typography.h1
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+                if (selectedServer?.serverData?.isNotEmpty() == true) {
+                    BaseButtonWithIcon(
+                        modifier = Modifier.fillMaxHeight(),
+                        onClick = { callbacks.onPlayClick() },
+                        icon = painterResource(Res.drawable.ic_play_circle),
+                        text = "Play"
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(24.dp))
             GenreAndDescription(contentUIState.genres, contentUIState.description)
             Spacer(modifier = Modifier.height(24.dp))
@@ -203,12 +241,33 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
                     callbacks.onItemClick(item.slug)
                 })
         }
+
+        if (showDialog && contentUIState.trailerUrl!= null) {
+            Dialog(onDismissRequest = { showDialog = false }) {
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    color = Color.Black, // Đảm bảo có màu nền
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp) // Dùng height cụ thể thay vì aspectRatio
+                ) {
+                    YouTubeWebViewPlayer(
+                        videoId = contentUIState.trailerUrl.substringAfter("watch?v="),
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
     }
 
     @Composable
     fun MoreInfoSection(content: ContentUIState, modifier: Modifier = Modifier) {
         Column(modifier = modifier) {
-            BaseText("Thể loại: ${content.genres.joinToString(", ")}", style = FidoTheme.typography.subtitle1)
+            BaseText(
+                "Thể loại: ${content.genres.joinToString(", ")}",
+                style = FidoTheme.typography.subtitle1
+            )
             BaseText("Ngôn ngữ: ${content.lang}", style = FidoTheme.typography.subtitle1)
             BaseText("Trạng thái: ${content.status}", style = FidoTheme.typography.subtitle1)
             BaseText("Chất lượng: ${content.quality}", style = FidoTheme.typography.subtitle1)
@@ -216,7 +275,7 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
     }
 
     @Composable
-    fun TitleSection(content: ContentUIState, onPlayClick: () -> Unit) {
+    fun TitleSection(content: ContentUIState) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             BaseText(content.title, style = FidoTheme.typography.h3)
             Spacer(Modifier.weight(1f))
@@ -264,28 +323,6 @@ data class MovieDetail(val slug: String?) : BaseScreen() {
             ) {
                 BaseText(text = content.country, maxLines = 1, style = FidoTheme.typography.caption)
             }
-        }
-        Spacer(modifier = Modifier.height(13.dp))
-        Row {
-            BaseButtonWithIcon(
-                modifier = Modifier,
-                onClick = onPlayClick,
-                icon = painterResource(Res.drawable.ic_play_circle),
-                text = "Play"
-            )
-//            Spacer(modifier = Modifier.width(8.dp))
-//            BaseOutlinedButton(
-//                modifier = Modifier,
-//                onClick = { /* TODO: Favorite */ },
-//            ) {
-//                BaseIcon(src = Res.drawable.ic_heart)
-//                BaseText(
-//                    "Favorite",
-//                    modifier = Modifier.padding(start = 4.dp),
-//                    maxLines = 1,
-//                    style = FidoTheme.typography.h1
-//                )
-//            }
         }
     }
 
