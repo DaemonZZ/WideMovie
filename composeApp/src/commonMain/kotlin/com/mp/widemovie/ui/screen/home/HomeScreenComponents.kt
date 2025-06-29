@@ -9,11 +9,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollScope
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -41,8 +44,11 @@ import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.components.text.BaseText
 import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
+import com.mp.widemovie.UIType
 import com.mp.widemovie.extensions.rememberAsyncImagePainter
 import com.mp.widemovie.getScreenSize
+import com.mp.widemovie.ui.screen.home.UiType.currentType
+import com.mp.widemovie.utils.customviews.SelectiveCornerRoundingShape
 import com.mp.widemovie.utils.makeURLRequestImage
 import com.mp.widemovie.viewmodel.HomeViewModel
 import com.mp.widemovie.viewmodel.TAG
@@ -51,10 +57,11 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import widemovie.composeapp.generated.resources.Res
-import widemovie.composeapp.generated.resources.img_place_holder
 import widemovie.composeapp.generated.resources.incomming_movies
+import widemovie.composeapp.generated.resources.loading_animation
 import widemovie.composeapp.generated.resources.movies_by_types
 import kotlin.math.roundToInt
+import com.mp.widemovie.extensions.rememberAsyncImagePainter as rememberAsyncImagePainterSeiko
 
 
 const val TAG = "HomeScreenComponents"
@@ -90,22 +97,33 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
         ) {
             items(movieList) { movie ->
                 with(movie) {
+                    val thumbUrl = if (currentType == UIType.Android) {
+                        thumbUrl
+                    } else {
+                        posterUrl
+                    }
                     val painter =
-                        rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString())) {
-                            painterResource(Res.drawable.img_place_holder)
+                        rememberAsyncImagePainterSeiko(makeURLRequestImage(thumbUrl.toString())) {
+                            painterResource(Res.drawable.loading_animation)
                         }
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxHeight().clickable {
-                            onClicked(slug.toString())
-                        }
+                    Box(
+                        modifier = Modifier.fillMaxHeight()
+                            .clip(
+                                SelectiveCornerRoundingShape(
+                                    cornerRadius = 16.dp,
+                                    clipTopEnd = true,  // Round this corner
+                                    clipBottomStart = true  // Round this corner
+                                )
+                            )
+                            .clickable {
+                                onClicked(slug.toString())
+                            }
                     ) {
                         val ratio = 1 / 2.5
-                        val height = getScreenSize().second * ratio * 0.6
+                        val height = getScreenSize().second * ratio * 0.8
                         val width = height * 3 / 4
                         Image(
-                            modifier = Modifier.size(width.dp, height.dp),
+                            modifier = Modifier.fillParentMaxHeight().aspectRatio(3f / 4f),
                             painter = painter,
                             contentDescription = "image",
                             contentScale = ContentScale.Crop
@@ -115,12 +133,33 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> Un
                             color = Color.White,
                             fontSize = 16.sp,
                             modifier = Modifier.width(width.dp)
-                                .padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                                .background(Color.Black.copy(alpha = 0.5f))
+                                .padding(horizontal = 12.dp)
+                                .align(Alignment.BottomCenter),
                             overflow = TextOverflow.Ellipsis,
-                            maxLines = 1,
+                            maxLines = 2,
                             textAlign = TextAlign.Center
                         )
 
+                        Text(
+                            episodeCurrent,
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            modifier = Modifier.wrapContentWidth()
+                                .clip(
+                                    SelectiveCornerRoundingShape(
+                                        cornerRadius = 16.dp,
+                                        clipTopEnd = true,  // Round this corner
+                                        clipBottomStart = true  // Round this corner
+                                    )
+                                )
+                                .background(Color.Black.copy(alpha = 0.7f))
+                                .padding(4.dp)
+                                .align(Alignment.TopEnd),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 2,
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
@@ -196,22 +235,32 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
             ) {
                 items(movieList) { movie ->
                     with(movie) {
+                        val thumbUrl = if (currentType == UIType.Android) {
+                            thumbUrl
+                        } else {
+                            posterUrl
+                        }
                         val painter =
-                            rememberAsyncImagePainter(makeURLRequestImage(posterUrl.toString())) {
-                                painterResource(Res.drawable.img_place_holder)
+                            rememberAsyncImagePainter(makeURLRequestImage(thumbUrl.toString())) {
+                                painterResource(Res.drawable.loading_animation)
                             }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.clickable {
-                                onClicked(slug.toString())
-                            }
+                        Box(
+                            modifier = Modifier
+                                .clip(
+                                    SelectiveCornerRoundingShape(
+                                        cornerRadius = 16.dp,
+                                        clipTopEnd = true,  // Round this corner
+                                        clipBottomStart = true  // Round this corner
+                                    )
+                                ).clickable {
+                                    onClicked(slug.toString())
+                                }
                         ) {
                             val ratio = 1.5 / 2.5
-                            val height = getScreenSize().second * ratio * 0.5
+                            val height = getScreenSize().second * ratio * 0.6
                             val width = height * 3 / 4
                             Image(
-                                modifier = Modifier.size(width.dp, height.dp),
+                                modifier = Modifier.fillMaxHeight(0.85f).aspectRatio(3f / 4f),
                                 painter = painter,
                                 contentDescription = "image",
                                 contentScale = ContentScale.Crop
@@ -221,11 +270,47 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (String) -> 
                                 color = Color.White,
                                 fontSize = 16.sp,
                                 modifier = Modifier.width(width.dp)
-                                    .padding(top = 12.dp, start = 12.dp, end = 12.dp),
+                                    .background(Color.Black.copy(alpha = 0.5f))
+                                    .padding(horizontal = 12.dp)
+                                    .align(Alignment.BottomCenter),
                                 overflow = TextOverflow.Ellipsis,
-                                maxLines = 1,
-                                textAlign = TextAlign.Center
+                                maxLines = 2,
+                                textAlign = TextAlign.Center,
                             )
+                            if (quality.isNotEmpty()) {
+                                Text(
+                                    quality.toString(),
+                                    color = Color.White,
+                                    fontSize = 18.sp,
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .align(Alignment.TopStart)
+                                        .background(Color.Black.copy(0.7f))
+                                        .padding(4.dp),
+                                    maxLines = 1,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                            if (episodeCurrent.isNotEmpty()) {
+                                Text(
+                                    (episodeCurrent + "\n" + time),
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .align(Alignment.TopEnd)
+                                        .clip(
+                                            SelectiveCornerRoundingShape(
+                                                cornerRadius = 16.dp,
+                                                clipBottomStart = true,  // Round this corner
+                                            )
+                                        )
+                                        .background(Color.Black.copy(0.7f))
+                                        .padding(horizontal = 6.dp, vertical = 2.dp),
+                                    maxLines = 2,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }

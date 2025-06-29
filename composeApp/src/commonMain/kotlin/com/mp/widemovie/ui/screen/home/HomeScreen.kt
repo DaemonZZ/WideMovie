@@ -21,23 +21,26 @@ import com.mp.widemovie.getScreenSize
 import com.mp.widemovie.ui.screen.AndroidBottomBar
 import com.mp.widemovie.ui.screen.MovieDetail
 import com.mp.widemovie.ui.screen.WebNavigatorDrawer
+import com.mp.widemovie.ui.screen.home.UiType.currentType
 import com.mp.widemovie.viewmodel.HomeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
+object UiType{
+    val currentType = CurrentUIType
+}
 
 class HomeScreen : BaseScreen() {
     @Composable
     override fun Content() {
         val nav = LocalNavigator.currentOrThrow
         val viewModel: HomeViewModel = koinViewModel()
-        val categoryUI = CurrentUIType
         FidoTheme {
             Scaffold(
-                bottomBar = { if (categoryUI == UIType.Android) AndroidBottomBar(0) },
+                bottomBar = { if (currentType == UIType.Android) AndroidBottomBar(0) },
                 drawerBackgroundColor = Color.Transparent,
                 drawerElevation = 0.dp,
-                drawerContent = { if (categoryUI == UIType.Web) WebNavigatorDrawer() },
-                drawerGesturesEnabled = (categoryUI == UIType.Web),
+                drawerContent = { if (currentType == UIType.Web) WebNavigatorDrawer() },
+                drawerGesturesEnabled = (currentType == UIType.Web),
             ) {
                 TLog.d("ScreenSize", getScreenSize().toString())
                 Column(
