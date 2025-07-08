@@ -2,7 +2,7 @@ package com.mp.widemovie
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.platform.LocalWindowInfo
+import com.daemonz.base_sdk.model.SelectedFilmInfo
 import kotlinx.browser.window
 import org.koin.core.scope.Scope
 
@@ -26,4 +26,12 @@ actual fun getScreenSize(): Pair<Int, Int> {
         e.printStackTrace()
         Pair(1920, 1080)
     }
+}
+
+actual fun saveSelectedMovie(selectedFilm: SelectedFilmInfo) {
+    //TODO need to find another way to store selected movie
+}
+
+actual suspend fun getAllWatchedMovies(): List<SelectedFilmInfo> {
+    TODO("Not yet implemented")
 }
