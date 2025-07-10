@@ -81,8 +81,10 @@ class WebServiceImpl(
                     protocol = URLProtocol.HTTPS
                     host = BASE_URL
                     path(path)
-                    query.entries.forEach { entry ->
-                        parameters.append(entry.key, entry.value)
+                    if(query.isNotEmpty()){
+                        query.entries.forEach { entry ->
+                            parameters.append(entry.key, entry.value)
+                        }
                     }
                 }
             }

@@ -77,6 +77,14 @@
           }
         },
         {
+          "client_id": "4792051722-h62atukomo6mspp30sice8cv175ubs19.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mp.widemovie",
+            "certificate_hash": "9e5b7864b06cb86c3b5753822a24c1e9ce9d6501"
+          }
+        },
+        {
           "client_id": "4792051722-fr5c40f5khil7geel5im1ufa8sovbvn5.apps.googleusercontent.com",
           "client_type": 3
         }

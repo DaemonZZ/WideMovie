@@ -1,5 +1,6 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -74,9 +75,8 @@ kotlin {
             implementation("androidx.media3:media3-exoplayer:1.3.1")
             implementation("androidx.media3:media3-ui:1.3.1")
             implementation(libs.androidx.core.ktx)
-            implementation("com.google.firebase:firebase-analytics")
-            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
             implementation(libs.androidx.ui.android)
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
@@ -111,6 +111,11 @@ kotlin {
             implementation(libs.voyager.transitions)
             // Koin integration
 //            implementation(libs.voyager.koin) // Chưa hỗ trợ wasm
+            implementation("com.google.firebase:firebase-analytics")
+            implementation(libs.firebase.database)
+            implementation(libs.firebase.firestore)
+            implementation("com.google.firebase:firebase-auth-ktx")
+            implementation("com.google.code.gson:gson:2.10.1")
         }
         wasmJsMain.dependencies {
         }

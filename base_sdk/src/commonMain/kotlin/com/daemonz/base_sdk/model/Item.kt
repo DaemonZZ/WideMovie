@@ -28,12 +28,24 @@ data class Item(
     @SerialName("episode_total") val episodeTotal: String = "",
     @SerialName("trailer_url") val trailerUrl: String = "",
     @SerialName("imdb") val imdb: Imdb? = null,
-    @SerialName("modified") val modified: Modified?= null,
-    @SerialName("sub_docquyen") val subUnique: Boolean?= null,
-    @SerialName("tmdb") val tmd: Tmdb?= null,
+    @SerialName("modified") val modified: Modified? = null,
+    @SerialName("sub_docquyen") val subUnique: Boolean? = null,
+    @SerialName("tmdb") val tmd: Tmdb? = null,
     @SerialName("rating") var rating: Double = 0.0
 ) : NetworkEntity() {
     fun getImageUrl(imgDomain: String): String {
         return "$imgDomain/uploads/movies/$thumbUrl"
+    }
+
+    fun convertToRecentSearch(): SelectedFilmInfo {
+        return SelectedFilmInfo(
+            id = id,
+            name = name,
+            quality = quality,
+            episodeCurrent = episodeCurrent,
+            time = time,
+            posterUrl = posterUrl,
+            thumbUrl = thumbUrl
+        )
     }
 }
