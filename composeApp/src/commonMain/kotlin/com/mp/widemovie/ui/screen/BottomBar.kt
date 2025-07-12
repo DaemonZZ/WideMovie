@@ -45,7 +45,7 @@ fun AndroidBottomBar(index: Int) {
         Res.drawable.ic_home,
 //        Res.drawable.ic_download,
         Res.drawable.ic_search_2,
-        Res.drawable.ic_file,
+//        Res.drawable.ic_file,
 //        Res.drawable.ic_user
     )
     Row(
@@ -95,7 +95,7 @@ fun WebNavigatorDrawer() {
         Res.drawable.ic_home,
 //        Res.drawable.ic_download,
         Res.drawable.ic_search_2,
-        Res.drawable.ic_file,
+//        Res.drawable.ic_file,
 //        Res.drawable.ic_user
     )
 
@@ -155,6 +155,6 @@ enum class BottomBarValues(name: String){
     Home("Home"),
 //    Download("Download"),
     Search("Search"),
-    Files("Files"),
+//    Files("Files"),
 //    Profile("Profile")
 }

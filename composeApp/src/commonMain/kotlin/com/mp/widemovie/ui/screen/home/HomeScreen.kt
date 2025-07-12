@@ -44,7 +44,7 @@ class HomeScreen : BaseScreen() {
             ) { innerPadding ->
                 Column(
                     Modifier.fillMaxWidth().background(FidoPaletteTokens.Secondary10)
-                        .padding(innerPadding),
+                        .padding(innerPadding).padding(horizontal = 16.dp).padding(top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Body(Modifier.fillMaxWidth().weight(1f), viewModel) { movie ->

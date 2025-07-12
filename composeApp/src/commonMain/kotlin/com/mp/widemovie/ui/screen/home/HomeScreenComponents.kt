@@ -6,9 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,7 +44,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Unit
     val movieList = dataResponse.sortedByDescending { it.tmd?.voteAverage }
     TLog.d(TAG, "Header movieList: $movieList")
     Column(
-        modifier = modifier.padding(start = 20.dp, end = 20.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Bottom
     ) {
         Column(
@@ -58,7 +58,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Unit
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
-        MovieLazyColumn(Modifier.weight(0.8f), 1f, movieList, onClicked)
+        MovieLazyColumn(Modifier.weight(1f), 1f, movieList, onClicked)
     }
 }
 
@@ -82,11 +82,11 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Un
 
     TLog.d(TAG, "selectedCategory: $selectedCategory")
     Column(
-        modifier = modifier.padding(start = 20.dp, end = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Column(
-            modifier = Modifier.weight(0.1f),
+            modifier = Modifier.padding(top = 16.dp).wrapContentHeight(),
             verticalArrangement = Arrangement.Bottom
         ) {
             BaseText(
@@ -99,7 +99,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Un
         if (!nameCategories.isNullOrEmpty()) {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.weight(0.1f),
+                modifier = Modifier.wrapContentHeight(),
                 verticalAlignment = Alignment.Bottom
             ) {
                 items(nameCategories) { category ->
@@ -119,7 +119,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Un
                             })
                 }
             }
-            MovieLazyColumn(Modifier.weight(0.7f), 0.85f, movieList, onClicked)
+            MovieLazyColumn(Modifier.weight(0.9f), 1f, movieList, onClicked)
         }
     }
 }
