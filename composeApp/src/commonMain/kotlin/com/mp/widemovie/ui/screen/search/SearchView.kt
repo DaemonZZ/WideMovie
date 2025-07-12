@@ -111,7 +111,7 @@ internal fun LazyGridFilms(
     }
     LazyVerticalGrid(
         columns = GridCells.Fixed(fixedColumn),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        contentPadding = PaddingValues( vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),   // Space between rows of items
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.fillMaxWidth()
@@ -147,7 +147,6 @@ private fun BeautifulMovieListItem(
     with(movie) {
         Card(
             modifier = modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .clickable {
                     onClicked()
                 }, // Padding around the card
@@ -168,7 +167,6 @@ private fun BeautifulMovieListItem(
                         .weight(0.4f)
                         .aspectRatio(2f / 3f) // Common movie poster aspect ratio (e.g., width 2, height 3)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(FidoTheme.colorScheme.onBackground.copy(alpha = 0.1f)) // Placeholder bg
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))

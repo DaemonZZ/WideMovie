@@ -70,7 +70,7 @@ class SearchMovie : BaseScreen() {
                     WindowType.MEDIUM -> 1f
                     WindowType.EXPANDED -> 1f
                 }
-                Column(modifier = Modifier.fillMaxSize().padding(start = 16.dp)) {
+                Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
                     Icon(
                         painter = painterResource(Res.drawable.ic_tv),
                         contentDescription = "Icon television",
