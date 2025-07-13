@@ -75,7 +75,7 @@ class SearchMovie : BaseScreen() {
                         painter = painterResource(Res.drawable.ic_tv),
                         contentDescription = "Icon television",
                         modifier = Modifier.fillMaxWidth(),
-                        tint = Color.Red
+                        tint = FidoPaletteTokens.PrimaryMain
                     )
                     SearchView(viewModel)
                     if (movieLists.isEmpty()){
