@@ -45,6 +45,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import com.daemonz.base_sdk.model.Item
+import com.daemonz.base_sdk.utils.TLog
+import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.CurrentUIType
 import com.mp.widemovie.UIType
@@ -155,7 +157,8 @@ private fun BeautifulMovieListItem(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(12.dp), // Padding inside the card
+                    .background(FidoPaletteTokens.White.copy(0.9f))
+                    .padding(12.dp), // Placeholder bg, // Padding inside the card
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // Movie Poster Image
