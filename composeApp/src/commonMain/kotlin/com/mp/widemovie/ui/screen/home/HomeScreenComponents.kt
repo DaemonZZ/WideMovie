@@ -32,15 +32,13 @@ import com.mp.widemovie.viewmodel.HomeViewModel
 import com.mp.widemovie.viewmodel.TAG
 import org.jetbrains.compose.resources.stringResource
 import widemovie.composeapp.generated.resources.Res
-import widemovie.composeapp.generated.resources.incomming_movies
 import widemovie.composeapp.generated.resources.movies_by_types
 
 
 const val TAG = "HomeScreenComponents"
 
 @Composable
-fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Unit) {
-    val dataResponse = viewModel.stateFlowMoviesInComming.collectAsState().value
+fun Body(modifier: Modifier, header: String, dataResponse: List<Item>, onClicked: (Item) -> Unit) {
     val movieList = dataResponse.sortedByDescending { it.tmd?.voteAverage }
     TLog.d(TAG, "Header movieList: $movieList")
     Column(
@@ -52,7 +50,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Unit
             verticalArrangement = Arrangement.Bottom
         ) {
             BaseText(
-                stringResource(Res.string.incomming_movies),
+                header,
                 color = FidoPaletteTokens.PrimaryMain,
                 fontSize = FidoTheme.typography.h2.fontSize,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -61,6 +59,7 @@ fun Body(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Unit
         MovieLazyColumn(Modifier.weight(1f), 1f, movieList, onClicked)
     }
 }
+
 
 
 @Composable

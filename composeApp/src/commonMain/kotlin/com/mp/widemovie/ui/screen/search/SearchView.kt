@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -45,7 +46,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import com.daemonz.base_sdk.model.Item
-import com.daemonz.base_sdk.utils.TLog
 import com.daemonz.common.theme.FidoPaletteTokens
 import com.daemonz.common.theme.FidoTheme
 import com.mp.widemovie.CurrentUIType
@@ -104,7 +104,8 @@ fun SearchView(viewModel: SearchViewModel) {
 internal fun LazyGridFilms(
     movieLists: List<Item>,
     nav: Navigator,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: Int = 16
 ) {
     val fixedColumn = when (getWindowType()) {
         WindowType.COMPACT -> 1
@@ -113,7 +114,7 @@ internal fun LazyGridFilms(
     }
     LazyVerticalGrid(
         columns = GridCells.Fixed(fixedColumn),
-        contentPadding = PaddingValues( vertical = 16.dp),
+        contentPadding = PaddingValues(vertical = contentPadding.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),   // Space between rows of items
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.fillMaxWidth()
@@ -121,7 +122,7 @@ internal fun LazyGridFilms(
         items(items = movieLists.sortedByDescending { it.year }) { item ->
             BeautifulMovieListItem(
                 item,
-                modifier.fillMaxWidth().fillMaxHeight(0.2f)
+                Modifier.fillMaxWidth().fillMaxHeight(0.2f)
             ) {
                 saveSelectedMovie(item.convertToRecentSearch())
                 nav += MovieDetail(item.slug.toString())
@@ -157,7 +158,7 @@ private fun BeautifulMovieListItem(
         ) {
             Row(
                 modifier = Modifier
-                    .background(FidoPaletteTokens.White.copy(0.9f))
+                    .background(FidoPaletteTokens.White.copy(0.9f)).wrapContentHeight()
                     .padding(12.dp), // Placeholder bg, // Padding inside the card
                 verticalAlignment = Alignment.CenterVertically,
             ) {
