@@ -28,28 +28,51 @@ class AppRepository() : BaseRepository() {
 
     }
 
-    suspend fun getHomeData(onResultListener: OnResultListener<ListData?, Error>) {
-        mWebService.getHomeData().onSuccess { response ->
+    suspend fun getAllCatergories(onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getMovieLists(PATHS.CATERGORY.id).onSuccess { response ->
             onResultListener.onSuccess(response)
         }.onError { e ->
             onResultListener.onError(e)
-            }
+        }
     }
 
-    suspend fun getAllCatergories(onResultListener: OnResultListener<ListData?, Error>) {
-            mWebService.getMovieLists(PATHS.CATERGORY.id).onSuccess { response ->
-                onResultListener.onSuccess(response)
-            }.onError { e ->
-                onResultListener.onError(e)
-            }
+    suspend fun searchMovies(
+        path: String,
+        query: Map<String, String> = emptyMap<String, String>(),
+        onResultListener: OnResultListener<ListData?, Error>
+    ) {
+        mWebService.getMovieLists(path, query).onSuccess { response ->
+            TLog.d("searchMovies", "path: $path\nonSuccess: $response")
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
+        }
     }
 
-    suspend fun searchMovies(path: String, query: Map<String, String> = emptyMap<String, String>(), onResultListener: OnResultListener<ListData?, Error>) {
-            mWebService.getMovieLists(path, query).onSuccess { response ->
-                TLog.d("getDataByPath", "path: $path\nonSuccess: $response")
-                onResultListener.onSuccess(response)
-            }.onError { e ->
-                onResultListener.onError(e)
-            }
+    suspend fun getTvShows(onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getMovieLists(PATHS.TV_SHOWS.id).onSuccess { response ->
+            TLog.d("getTvShows", "path: ${PATHS.TV_SHOWS.id}: $response")
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
+        }
+    }
+
+    suspend fun getPhimBo(onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getMovieLists(PATHS.PHIM_BO.id).onSuccess { response ->
+            TLog.d("getTvShows", "path: ${PATHS.PHIM_BO.id}: $response")
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
+        }
+    }
+
+    suspend fun getFilmLe(onResultListener: OnResultListener<ListData?, Error>) {
+        mWebService.getMovieLists(PATHS.PHIM_LE.id).onSuccess { response ->
+            TLog.d("getTvShows", "path: ${PATHS.PHIM_LE.id}: $response")
+            onResultListener.onSuccess(response)
+        }.onError { e ->
+            onResultListener.onError(e)
+        }
     }
 }
