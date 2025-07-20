@@ -28,9 +28,6 @@ class SearchViewModel(
     private val _cartoonState = MutableStateFlow<ListData?>(null)
     val cartoonState = _cartoonState.asStateFlow()
 
-    private val _watchedMovies = MutableStateFlow<ListData?>(null)
-    val watchedMovies = _watchedMovies.asStateFlow()
-
     fun searchMoviesByName(name: String)= launchOnIO {
         val query = mapOf(
             KEYWORD to name.trim()

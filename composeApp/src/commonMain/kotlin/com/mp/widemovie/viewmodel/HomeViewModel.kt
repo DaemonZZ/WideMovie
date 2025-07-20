@@ -32,8 +32,11 @@ class HomeViewModel(
     ioScope = ioScope,
 ) {
 
-    private val _stateFlowHome = MutableStateFlow<ListData?>(null)
-    val stateFlowHome = _stateFlowHome.asStateFlow()
+    private val _stateFlowTvShows = MutableStateFlow<List<Item>>(emptyList())
+    val stateFlowTvShows = _stateFlowTvShows.asStateFlow()
+
+    private val _stateFlowPhimBo = MutableStateFlow<List<Item>>(emptyList())
+    val stateFlowPhimBo = _stateFlowPhimBo.asStateFlow()
 
     private val _stateFlowCategories = MutableStateFlow<ListData?>(null)
     val stateFlowCategories = _stateFlowCategories.asStateFlow()
@@ -44,26 +47,15 @@ class HomeViewModel(
     private val _stateFlowMoviesInComming = MutableStateFlow<List<Item>>(emptyList())
     val stateFlowMoviesInComming = _stateFlowMoviesInComming.asStateFlow()
 
+    private val _stateFlowFilmLe = MutableStateFlow<List<Item>>(emptyList())
+    val stateFlowFilmLe = _stateFlowFilmLe.asStateFlow()
+
     init {
-        getHomeData()
-        getAllCatergories()
         getIncommingFilm()
-    }
-
-    private fun getHomeData() = launchOnIO {
-        repository.getHomeData(onResultListener = object :
-            OnResultListener<ListData?, Error> {
-            override fun onSuccess(data: ListData?) {
-                _stateFlowHome.value = data
-                TLog.d(TAG, "onSuccess: $data")
-            }
-
-            override fun onError(error: Error) {
-                errorMessage.value = error.toString()
-                TLog.e(TAG, "getHomeData error: $error")
-            }
-        }
-        )
+        getAllCatergories()
+        getPhimBo()
+        getTvShows()
+        getFilmLe()
     }
 
     private fun getAllCatergories() = launchOnIO {
@@ -80,6 +72,25 @@ class HomeViewModel(
             }
         })
     }
+
+    fun getIncommingFilm() =
+        launchOnIO {
+            repository.searchMovies(
+                path = "${PATHS.LIST.id}/${PATHS.INCOMMING.id}",
+                onResultListener = object :
+                    OnResultListener<ListData?, Error> {
+                    override fun onSuccess(data: ListData?) {
+                        _stateFlowMoviesInComming.value =
+                        data?.data?.items?.sortedBy { it.time } ?: emptyList()
+                        TLog.d(TAG, "getMoviesByType onSuccess: $data")
+                    }
+
+                    override fun onError(error: Error) {
+                        errorMessage.value = error.toString()
+                        TLog.e(TAG, "getMoviesByType error: $error")
+                    }
+                })
+        }
 
 
     fun getMoviesByType(type: String) =
@@ -101,23 +112,51 @@ class HomeViewModel(
                 })
         }
 
+    private fun getTvShows() = launchOnIO {
+        repository.getTvShows(onResultListener = object :
+            OnResultListener<ListData?, Error> {
+            override fun onSuccess(data: ListData?) {
+                _stateFlowTvShows.value = data?.data?.items ?: emptyList()
+                TLog.d(TAG, "getTvShows onSuccess: $data")
+            }
 
-    fun getIncommingFilm() =
-        launchOnIO {
-            repository.searchMovies(
-                path = "${PATHS.LIST.id}/${PATHS.INCOMMING.id}",
-                onResultListener = object :
-                    OnResultListener<ListData?, Error> {
-                    override fun onSuccess(data: ListData?) {
-                        _stateFlowMoviesInComming.value =
-                        data?.data?.items?.sortedBy { it.time } ?: emptyList()
-                        TLog.d(TAG, "getMoviesByType onSuccess: $data")
-                    }
-
-                    override fun onError(error: Error) {
-                        errorMessage.value = error.toString()
-                        TLog.e(TAG, "getMoviesByType error: $error")
-                    }
-                })
+            override fun onError(error: Error) {
+                errorMessage.value = error.toString()
+                TLog.e(TAG, "getTvShows error: $error")
+            }
         }
+        )
+    }
+
+    private fun getPhimBo() = launchOnIO {
+        repository.getPhimBo(onResultListener = object :
+            OnResultListener<ListData?, Error> {
+            override fun onSuccess(data: ListData?) {
+                _stateFlowPhimBo.value = data?.data?.items ?: emptyList()
+                TLog.d(TAG, "getTvShows onSuccess: $data")
+            }
+
+            override fun onError(error: Error) {
+                errorMessage.value = error.toString()
+                TLog.e(TAG, "getTvShows error: $error")
+            }
+        }
+        )
+    }
+
+    private fun getFilmLe() = launchOnIO {
+        repository.getFilmLe(onResultListener = object :
+            OnResultListener<ListData?, Error> {
+            override fun onSuccess(data: ListData?) {
+                _stateFlowFilmLe.value = data?.data?.items ?: emptyList()
+                TLog.d(TAG, "getTvShows onSuccess: $data")
+            }
+
+            override fun onError(error: Error) {
+                errorMessage.value = error.toString()
+                TLog.e(TAG, "getTvShows error: $error")
+            }
+        }
+        )
+    }
 }
