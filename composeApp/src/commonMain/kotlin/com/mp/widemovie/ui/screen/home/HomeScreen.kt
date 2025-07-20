@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -57,7 +56,7 @@ class HomeScreen : BaseScreen() {
                 TLog.d("HomeContent", "$homeContent")
                 LazyColumn(
                     Modifier.fillMaxSize().background(FidoPaletteTokens.Secondary10)
-                        .padding(innerPadding).padding(horizontal = 16.dp).padding(top = 16.dp),
+                        .padding(innerPadding).padding(horizontal = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(homeContent) { content ->
@@ -65,7 +64,7 @@ class HomeScreen : BaseScreen() {
                         when (content) {
                             HOME_CONTENT.INCOMMING_MOVIES -> {
                                 val dataResponse =
-                                    viewModel.stateFlowMoviesInComming.collectAsState().value
+                                    viewModel.stateFlowMoviesInComing.collectAsState().value
                                 val header = stringResource(Res.string.incomming_movies)
                                 Body(
                                     Modifier.fillMaxWidth().fillParentMaxHeight(ratioContent),

@@ -42,7 +42,7 @@ class AppRepository() : BaseRepository() {
         onResultListener: OnResultListener<ListData?, Error>
     ) {
         mWebService.getMovieLists(path, query).onSuccess { response ->
-            TLog.d("searchMovies", "path: $path\nonSuccess: $response")
+            TLog.d(TAG, "func searchMovies\n path: $path\nonSuccess: $response")
             onResultListener.onSuccess(response)
         }.onError { e ->
             onResultListener.onError(e)
@@ -50,8 +50,9 @@ class AppRepository() : BaseRepository() {
     }
 
     suspend fun getTvShows(onResultListener: OnResultListener<ListData?, Error>) {
-        mWebService.getMovieLists(PATHS.TV_SHOWS.id).onSuccess { response ->
-            TLog.d("getTvShows", "path: ${PATHS.TV_SHOWS.id}: $response")
+        val path =  PATHS.LIST.id + "/" + PATHS.TV_SHOWS.id
+        mWebService.getMovieLists(path).onSuccess { response ->
+            TLog.d(TAG, "func getTvShows\n path: $path\nonSuccess: $response")
             onResultListener.onSuccess(response)
         }.onError { e ->
             onResultListener.onError(e)
@@ -59,8 +60,9 @@ class AppRepository() : BaseRepository() {
     }
 
     suspend fun getPhimBo(onResultListener: OnResultListener<ListData?, Error>) {
-        mWebService.getMovieLists(PATHS.PHIM_BO.id).onSuccess { response ->
-            TLog.d("getTvShows", "path: ${PATHS.PHIM_BO.id}: $response")
+        val path =  PATHS.LIST.id + "/" + PATHS.PHIM_BO.id
+        mWebService.getMovieLists(path).onSuccess { response ->
+            TLog.d(TAG, "func getPhimBo\n path: $path\nonSuccess: $response")
             onResultListener.onSuccess(response)
         }.onError { e ->
             onResultListener.onError(e)
@@ -68,8 +70,10 @@ class AppRepository() : BaseRepository() {
     }
 
     suspend fun getFilmLe(onResultListener: OnResultListener<ListData?, Error>) {
-        mWebService.getMovieLists(PATHS.PHIM_LE.id).onSuccess { response ->
-            TLog.d("getTvShows", "path: ${PATHS.PHIM_LE.id}: $response")
+        val path =  PATHS.LIST.id + "/" + PATHS.PHIM_LE.id
+        mWebService.getMovieLists(path).onSuccess { response ->
+            TLog.d("getFilmLe", "path: ${PATHS.PHIM_LE.id}: $response")
+            TLog.d(TAG, "func getFilmLe\n path: $path\nonSuccess: $response")
             onResultListener.onSuccess(response)
         }.onError { e ->
             onResultListener.onError(e)

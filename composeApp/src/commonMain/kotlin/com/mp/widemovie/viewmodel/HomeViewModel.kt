@@ -20,14 +20,10 @@ data class HomeState(
     val listMovie: List<String> = emptyList(),
 ) : UIState
 
-sealed class HomeEffect : UIEffect {
-    object ShowToast : HomeEffect()
-}
-
 class HomeViewModel(
-    private val ioScope: CoroutineScope,
+    ioScope: CoroutineScope,
     private val repository: AppRepository,
-) : BaseViewModel<HomeState, HomeEffect>(
+) : BaseViewModel<HomeState, UIEffect>(
     initialState = HomeState(),
     ioScope = ioScope,
 ) {
@@ -44,8 +40,8 @@ class HomeViewModel(
     private val _stateFlowMoviesFooter = MutableStateFlow<List<Item>>(emptyList())
     val stateFlowMoviesFooter = _stateFlowMoviesFooter.asStateFlow()
 
-    private val _stateFlowMoviesInComming = MutableStateFlow<List<Item>>(emptyList())
-    val stateFlowMoviesInComming = _stateFlowMoviesInComming.asStateFlow()
+    private val _stateFlowMoviesInComing = MutableStateFlow<List<Item>>(emptyList())
+    val stateFlowMoviesInComing = _stateFlowMoviesInComing.asStateFlow()
 
     private val _stateFlowFilmLe = MutableStateFlow<List<Item>>(emptyList())
     val stateFlowFilmLe = _stateFlowFilmLe.asStateFlow()
@@ -80,14 +76,14 @@ class HomeViewModel(
                 onResultListener = object :
                     OnResultListener<ListData?, Error> {
                     override fun onSuccess(data: ListData?) {
-                        _stateFlowMoviesInComming.value =
+                        _stateFlowMoviesInComing.value =
                         data?.data?.items?.sortedBy { it.time } ?: emptyList()
-                        TLog.d(TAG, "getMoviesByType onSuccess: $data")
+                        TLog.d(TAG, "getIncommingFilm onSuccess: $data")
                     }
 
                     override fun onError(error: Error) {
                         errorMessage.value = error.toString()
-                        TLog.e(TAG, "getMoviesByType error: $error")
+                        TLog.e(TAG, "getIncommingFilm error: $error")
                     }
                 })
         }
@@ -133,12 +129,12 @@ class HomeViewModel(
             OnResultListener<ListData?, Error> {
             override fun onSuccess(data: ListData?) {
                 _stateFlowPhimBo.value = data?.data?.items ?: emptyList()
-                TLog.d(TAG, "getTvShows onSuccess: $data")
+                TLog.d(TAG, "getPhimBo onSuccess: $data")
             }
 
             override fun onError(error: Error) {
                 errorMessage.value = error.toString()
-                TLog.e(TAG, "getTvShows error: $error")
+                TLog.e(TAG, "getPhimBo error: $error")
             }
         }
         )
@@ -149,12 +145,12 @@ class HomeViewModel(
             OnResultListener<ListData?, Error> {
             override fun onSuccess(data: ListData?) {
                 _stateFlowFilmLe.value = data?.data?.items ?: emptyList()
-                TLog.d(TAG, "getTvShows onSuccess: $data")
+                TLog.d(TAG, "getFilmLe onSuccess: $data")
             }
 
             override fun onError(error: Error) {
                 errorMessage.value = error.toString()
-                TLog.e(TAG, "getTvShows error: $error")
+                TLog.e(TAG, "getFilmLe error: $error")
             }
         }
         )

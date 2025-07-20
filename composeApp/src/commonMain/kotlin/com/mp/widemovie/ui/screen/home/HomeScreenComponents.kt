@@ -85,7 +85,7 @@ fun Footer(modifier: Modifier, viewModel: HomeViewModel, onClicked: (Item) -> Un
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Column(
-            modifier = Modifier.padding(top = 16.dp).wrapContentHeight(),
+            modifier = Modifier.wrapContentHeight(),
             verticalArrangement = Arrangement.Bottom
         ) {
             BaseText(
