@@ -5,7 +5,7 @@ enum class PATHS(val id: String) {
     CATERGORY("the-loai"),
     LIST("danh-sach"),
     INCOMMING("phim-sap-chieu"),
-    TV_SHOWS("danh-sach/tv-shows"),
-    PHIM_BO("danh-sach/phim-bo"),
-    PHIM_LE("danh-sach/phim-le")
+    TV_SHOWS("tv-shows"),
+    PHIM_BO("phim-bo"),
+    PHIM_LE("phim-le")
 }
