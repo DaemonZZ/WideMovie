@@ -8,6 +8,7 @@ import com.daemonz.base_sdk.utils.Error
 import com.daemonz.base_sdk.utils.OnResultListener
 import com.daemonz.base_sdk.utils.TLog
 import com.mp.widemovie.base.BaseViewModel
+import com.mp.widemovie.base.UIEffect
 import com.mp.widemovie.base.UIState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ data class SearchState(
 class SearchViewModel(
     ioScope: CoroutineScope,
     private val repository: AppRepository,
-) : BaseViewModel<SearchState, HomeEffect>(
+) : BaseViewModel<SearchState, UIEffect>(
     initialState = SearchState(),
     ioScope = ioScope,
 ) {
