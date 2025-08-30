@@ -1,6 +1,5 @@
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -121,9 +120,9 @@ kotlin {
         }
     }
 }
-val versionMajor = 0
+val versionMajor = 1
 val versionMinor = 0
-val versionPatch = 1
+val versionPatch = 2
 val minimumSdkVersion = 33
 
 val copyApks = tasks.register("copyApks")
