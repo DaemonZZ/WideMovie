@@ -76,6 +76,7 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.ui.android)
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
+            implementation("com.google.android.gms:play-services-ads:24.6.0")
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
