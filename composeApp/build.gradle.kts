@@ -122,7 +122,7 @@ kotlin {
 }
 val versionMajor = 1
 val versionMinor = 0
-val versionPatch = 6
+val versionPatch = 7
 val minimumSdkVersion = 33
 
 val copyApks = tasks.register("copyApks")
