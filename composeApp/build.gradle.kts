@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.util.Locale
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -32,7 +33,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
 //    listOf(
 //        iosX64(),
 //        iosArm64(),
@@ -43,7 +44,7 @@ kotlin {
 //            isStatic = true
 //        }
 //    }
-    
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -63,9 +64,9 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     sourceSets {
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -76,7 +77,12 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.ui.android)
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
-            implementation("com.google.android.gms:play-services-ads:24.6.0")
+            implementation("com.google.android.gms:play-services-ads:24.7.0")
+            implementation("com.google.firebase:firebase-analytics")
+            implementation(libs.firebase.database)
+            implementation(libs.firebase.firestore)
+            implementation("com.google.firebase:firebase-auth-ktx")
+            implementation("com.google.code.gson:gson:2.10.1")
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
@@ -111,11 +117,6 @@ kotlin {
             implementation(libs.voyager.transitions)
             // Koin integration
 //            implementation(libs.voyager.koin) // Chưa hỗ trợ wasm
-            implementation("com.google.firebase:firebase-analytics")
-            implementation(libs.firebase.database)
-            implementation(libs.firebase.firestore)
-            implementation("com.google.firebase:firebase-auth-ktx")
-            implementation("com.google.code.gson:gson:2.10.1")
         }
         wasmJsMain.dependencies {
         }
@@ -145,6 +146,121 @@ android {
         }
     }
     buildTypes {
+        val projectProperties = readProperties(file("../local.properties"))
+        release {
+            buildConfigField(
+                "String",
+                "ADS_OPEN_APP_ID",
+                "${projectProperties.getProperty("adsOpenAppIdRelease_1")}"
+            )
+
+            // 2. Adaptive Banner
+            buildConfigField(
+                "String",
+                "ADS_ADAPTIVE_BANNER_ID",
+                "${projectProperties.getProperty("adsAdaptiveBannerIdRelease_1")}"
+            )
+
+            // 3. Fixed Size Banner
+            buildConfigField(
+                "String",
+                "ADS_FIXED_SIZE_BANNER_ID",
+                "${projectProperties.getProperty("adsFixedSizeBannerIdRelease_1")}"
+            )
+
+            // 4. Interstitial
+            buildConfigField(
+                "String",
+                "ADS_INTERSTITIAL_ID",
+                "${projectProperties.getProperty("adsInterstitialIdRelease_1")}"
+            )
+
+            // 5. Rewarded Ads
+            buildConfigField(
+                "String",
+                "ADS_REWARD_ADS_ID",
+                "${projectProperties.getProperty("adsRewardAdsIdRelease_1")}"
+            )
+
+            // 6. Rewarded Interstitial
+            buildConfigField(
+                "String",
+                "ADS_REWARD_INTERSTITIAL_ID",
+                "${projectProperties.getProperty("adsRewardInterstitialIdRelease_1")}"
+            )
+
+            // 7. Native
+            buildConfigField(
+                "String",
+                "ADS_NATIVE_ID",
+                "${projectProperties.getProperty("adsNativeIdRelease_1")}"
+            )
+
+            // 8. Native Video
+            buildConfigField(
+                "String",
+                "ADS_NATIVE_VIDEO_ID",
+                "${projectProperties.getProperty("adsNavtiveVideoIdRelease_1")}"
+            )
+        }
+
+        debug {
+            buildConfigField(
+                "String",
+                "ADS_OPEN_APP_ID",
+                "${projectProperties.getProperty("adsOpenAppIdDebug_1")}"
+            )
+
+            // 2. Adaptive Banner
+            buildConfigField(
+                "String",
+                "ADS_ADAPTIVE_BANNER_ID",
+                "${projectProperties.getProperty("adsAdaptiveBannerIdDebug_1")}"
+            )
+
+            // 3. Fixed Size Banner
+            buildConfigField(
+                "String",
+                "ADS_FIXED_SIZE_BANNER_ID",
+                "${projectProperties.getProperty("adsFixedSizeBannerIdDebug_1")}"
+            )
+
+            // 4. Interstitial
+            buildConfigField(
+                "String",
+                "ADS_INTERSTITIAL_ID",
+                "${projectProperties.getProperty("adsInterstitialIdDebug_1")}"
+            )
+
+            // 5. Rewarded Ads
+            buildConfigField(
+                "String",
+                "ADS_REWARD_ADS_ID",
+                "${projectProperties.getProperty("adsRewardAdsIdDebug_1")}"
+            )
+
+            // 6. Rewarded Interstitial
+            buildConfigField(
+                "String",
+                "ADS_REWARD_INTERSTITIAL_ID",
+                "${projectProperties.getProperty("adsRewardInterstitialIdDebug_1")}"
+            )
+
+            // 7. Native
+            buildConfigField(
+                "String",
+                "ADS_NATIVE_ID",
+                "${projectProperties.getProperty("adsNativeIdDebug_1")}"
+            )
+
+            // 8. Native Video
+            buildConfigField(
+                "String",
+                "ADS_NATIVE_VIDEO_ID",
+                "${projectProperties.getProperty("adsNavtiveVideoIdDebug_1")}"
+            )
+        }
+
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(
@@ -195,9 +311,6 @@ android {
                 copyApks.dependsOn(copyApk)
                 assembleProvider.dependsOn(copyApk)
             }
-//            val projectProperties = readProperties(file("../local.properties"))
-//            val admobAppId = projectProperties.getProperty("ADMOB_ID_PROD")
-//            manifestPlaceholders["admobAppId"] = admobAppId
         }
     }
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
@@ -210,6 +323,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     buildToolsVersion = "35.0.0"
+}
+
+fun readProperties(propertiesFile: File) = Properties().apply {
+    propertiesFile.inputStream().use { fis ->
+        load(fis)
+    }
 }
 apply(plugin = "org.jetbrains.kotlin.kapt")
 kapt {
@@ -258,6 +377,6 @@ dependencies {
 
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
-    implementation (libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 }
 

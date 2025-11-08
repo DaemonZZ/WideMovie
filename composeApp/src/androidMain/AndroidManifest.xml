@@ -27,6 +27,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1258160637773632~7873622447"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true"/>
         <!--        adb shell am start -n com.app.movie/com.app.movie.TestActivity-->
 <!--        <activity-->
 <!--            android:name=".TestActivity"-->

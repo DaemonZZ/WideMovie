@@ -2,6 +2,7 @@ package com.mp.widemovie
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import com.daemonz.base_sdk.model.SelectedFilmInfo
 import kotlinx.browser.window
 import org.koin.core.scope.Scope
@@ -33,5 +34,25 @@ actual fun saveSelectedMovie(selectedFilm: SelectedFilmInfo) {
 }
 
 actual suspend fun getAllWatchedMovies(): List<SelectedFilmInfo> {
+    TODO("Not yet implemented")
+}
+
+@Composable
+actual fun InitializeAds() {
+    // Admob not support in wasm
+}
+
+@Composable
+actual fun BannerAdView(modifier: Modifier) {
+    // // Admob not support in wasm
+}
+
+@Composable
+actual fun NativeAdContainer(
+    modifier: Modifier,
+    onFailed: () -> Unit,
+    callBackEndAds: () -> Unit
+) {
+    // Admob not support in wasm
     TODO("Not yet implemented")
 }
