@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.util.Locale
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -77,6 +78,11 @@ kotlin {
             implementation(libs.androidx.ui.android)
             implementation(project.dependencies.platform("com.google.firebase:firebase-bom:33.16.0"))
             implementation("com.google.android.gms:play-services-ads:24.6.0")
+            implementation("com.google.firebase:firebase-analytics")
+            implementation(libs.firebase.database)
+            implementation(libs.firebase.firestore)
+            implementation("com.google.firebase:firebase-auth-ktx")
+            implementation("com.google.code.gson:gson:2.10.1")
         }
         commonMain.dependencies {
             api("io.github.qdsfdhvh:image-loader:1.10.0")
@@ -111,11 +117,6 @@ kotlin {
             implementation(libs.voyager.transitions)
             // Koin integration
 //            implementation(libs.voyager.koin) // Chưa hỗ trợ wasm
-            implementation("com.google.firebase:firebase-analytics")
-            implementation(libs.firebase.database)
-            implementation(libs.firebase.firestore)
-            implementation("com.google.firebase:firebase-auth-ktx")
-            implementation("com.google.code.gson:gson:2.10.1")
         }
         wasmJsMain.dependencies {
         }
@@ -145,6 +146,11 @@ android {
         }
     }
     buildTypes {
+        all {
+            val projectProperties = readProperties(file("../local.properties"))
+            val admobAppId = projectProperties.getProperty("adUnitIdDebug")
+            manifestPlaceholders["admobAppId"] = admobAppId
+        }
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(
@@ -195,9 +201,6 @@ android {
                 copyApks.dependsOn(copyApk)
                 assembleProvider.dependsOn(copyApk)
             }
-//            val projectProperties = readProperties(file("../local.properties"))
-//            val admobAppId = projectProperties.getProperty("ADMOB_ID_PROD")
-//            manifestPlaceholders["admobAppId"] = admobAppId
         }
     }
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
@@ -210,6 +213,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     buildToolsVersion = "35.0.0"
+}
+
+fun readProperties(propertiesFile: File) = Properties().apply {
+    propertiesFile.inputStream().use { fis ->
+        load(fis)
+    }
 }
 apply(plugin = "org.jetbrains.kotlin.kapt")
 kapt {
