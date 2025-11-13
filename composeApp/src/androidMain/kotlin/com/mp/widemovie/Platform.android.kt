@@ -4,13 +4,19 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import com.daemonz.base_sdk.model.SelectedFilmInfo
 import com.daemonz.base_sdk.utils.TLog
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.mp.widemovie.utils.BannerAdViewAndroid
+import com.mp.widemovie.utils.NativeAdContainerAndroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -96,4 +102,26 @@ fun <T> String.jsonToObject(classOfT: Class<T>, gson: Gson = Gson()): T? {
         println("An unexpected error occurred parsing JSON to ${classOfT.simpleName} with Gson: ${e.message}")
         null
     }
+}
+
+@Composable
+actual fun BannerAdView(modifier: Modifier) {
+    BannerAdViewAndroid(modifier)
+}
+
+@Composable
+actual fun InitializeAds() {
+    MobileAds.initialize(LocalContext.current)
+    val testDeviceIds = listOf("83bb0108-d2c2-4220-a9fe-17fc0c279b22")
+    val configuration = RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
+    MobileAds.setRequestConfiguration(configuration)
+}
+
+@Composable
+actual fun NativeAdContainer(
+    modifier: Modifier,
+    onFailed: () -> Unit,
+    callBackEndAds: () -> Unit
+) {
+    NativeAdContainerAndroid(modifier, onFailed, callBackEndAds)
 }
